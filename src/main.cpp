@@ -12,7 +12,6 @@
  */
 void initialize()
 {
-	//printf("init");
 	modified_initialize();
 }
 

@@ -42,10 +42,10 @@ void arcade_drive(double gearset_rpm = 200)
   double back_right_speed = rightX - leftY - leftX;
   */
 
-  double front_left_speed = leftY + (rightX * 0.97) + leftX;
-  double front_right_speed = leftY - (rightX * 0.97) - leftX;
-  double back_left_speed = leftY + (rightX * 0.97) - leftX;
-  double back_right_speed = leftY - (rightX * 0.97) + leftX;
+  double front_left_speed = (leftY * 0.83) + (rightX * 0.87) + leftX;
+  double front_right_speed = (leftY * 0.83) - (rightX * 0.87) - leftX;
+  double back_left_speed = (leftY * 0.83) + (rightX * 0.87) - leftX;
+  double back_right_speed = (leftY * 0.83) - (rightX * 0.87) + leftX;
 
   //calculate wheel speeds in rpm
   front_left_speed *= gearset_rpm;
@@ -84,6 +84,12 @@ void intake_controls()
     right_intake_mtr.moveVelocity(200);
   }
 
+  else if ((master_controller.getDigital(okapi::ControllerDigital::L2)) == true)
+  {
+    left_intake_mtr.moveVelocity(-200);
+    right_intake_mtr.moveVelocity(200);
+  }
+
   else
   {
     left_intake_mtr.moveVelocity(0);
@@ -108,6 +114,11 @@ void bottom_controls()
     bottom_mtr.moveVelocity(-300);
   }
 
+  else if ((master_controller.getDigital(okapi::ControllerDigital::X)) == true)
+  {
+    bottom_mtr.moveVelocity(300);
+  }
+
   else if ((master_controller.getDigital(okapi::ControllerDigital::L1)) == true)
   {
     bottom_mtr.moveVelocity(300);
@@ -126,14 +137,19 @@ void bottom_controls()
 
 void top_controls()
 {
-  if ((master_controller.getDigital(okapi::ControllerDigital::L2)) == true)
-  {
-    top_mtr.moveVelocity(-400);
-  }
+  // if ((master_controller.getDigital(okapi::ControllerDigital::L2)) == true)
+  // {
+  //   top_mtr.moveVelocity(-400);
+  // }
 
-  else if ((master_controller.getDigital(okapi::ControllerDigital::R2)) == true)
+  if ((master_controller.getDigital(okapi::ControllerDigital::R2)) == true)
   {
     top_mtr.moveVelocity(600);
+  }
+
+  else if ((master_controller.getDigital(okapi::ControllerDigital::X)) == true)
+  {
+    top_mtr.moveVelocity(300);
   }
 
   else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_2_value() < 2500))
@@ -156,10 +172,10 @@ void top_controls()
     top_mtr.moveVelocity(600);
   }
 
-  else if ((master_controller.getDigital(okapi::ControllerDigital::R1)) == true)
-  {
-    top_mtr.moveVelocity(150);
-  }
+  // else if ((master_controller.getDigital(okapi::ControllerDigital::R1)) == true)
+  // {
+  //   top_mtr.moveVelocity(150);
+  // }
 
   else
   {

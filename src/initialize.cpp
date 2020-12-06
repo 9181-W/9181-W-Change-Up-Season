@@ -3,6 +3,7 @@
 #include "inertial.hpp"
 #include "ultrasonic.hpp"
 #include "encoders.hpp"
+#include "position_tracker.hpp"
 using namespace okapi;
 
 Controller master_controller(ControllerId::master);
@@ -30,5 +31,6 @@ void modified_initialize()
   encoder_initialize();
   inertial_initialize();
   line_sensor_initialize();
+  tracker_initialize();
 
 }

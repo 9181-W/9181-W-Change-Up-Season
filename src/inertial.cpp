@@ -42,7 +42,7 @@ void inertial_initialize()
   } while(inertial_1->is_calibrating() == true);
 
   double end_time = pros::c::millis();
-  pros::lcd::print(5,"Calibration Time %f", end_time - start_time);
+  //pros::lcd::print(5,"Calibration Time %f", end_time - start_time);
 
   pros::Task inertial_value_task (inertial_reading, (void*)"PROSV5", TASK_PRIORITY_DEFAULT,
     TASK_STACK_DEPTH_DEFAULT, "Inertial Value Task");

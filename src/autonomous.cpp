@@ -5,6 +5,7 @@
 #include "turn_PID.hpp"
 #include "strafe_PID.hpp"
 #include "utils.hpp"
+#include "drive_to_point_PID.hpp"
 using namespace okapi;
 
 
@@ -21,11 +22,11 @@ void modified_autonomous()
 
 	//first tower
 
-	top_mtr.moveVelocity(600);
-	bottom_mtr.moveVelocity(200);
-	pros::delay(300);
-	top_mtr.moveVelocity(0);
-	bottom_mtr.moveVelocity(0);
+	// top_mtr.moveVelocity(600);
+	// bottom_mtr.moveVelocity(200);
+	// pros::delay(300);
+	// top_mtr.moveVelocity(0);
+	// bottom_mtr.moveVelocity(0);
 	// pros::delay(200);
 	// top_mtr.moveVelocity(600);
 	// pros::delay(300);
@@ -39,38 +40,50 @@ void modified_autonomous()
 	// pros::delay(300);
 	// top_mtr.moveVelocity(0);
 
-	async_gyro_drive(chassis, 37_in, 70);
-	wait_for_drive_complete();
-	gyro_turn_to(chassis, -69_deg, 100, 17.5, 0.017, 0.0, 0.0001, 2);
-	async_gyro_drive(chassis, 16_in, 142);
+	//void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distance, double y_max_speed, double y_min_speed, QLength x_distance, double x_max_speed, double x_min_speed);
 
-	intake_on(200);
-	pros::delay(1000);
-	intake_off();
-	intake_ball();
+	//drive_to_point(chassis, -23.5_in, 100.0, 15.0, -23.5_in, 100.0, 40.0);
+	//drive_to_point(chassis, 0_in, 100.0, 15.0, 72.0_in, 100.0, 30.0);
+  //drive_to_point(chassis, 72_in, 100.0, 15.0, 0.0_in, 100.0, 20.0);
+	printf("****************************************************n");
+	drive_to_point(chassis, 23.5_in, 100.0, 15.0, 23.5_in, 100.0, 40.0, 90);
+	//drive_to_point(chassis, 0.0_in, 100.0, 15.0, 0.0_in, 100.0, 40.0, 90);
 
-  wait_for_drive_complete();
-	top_and_bottom_spin();
-	pros::delay(500);
-	top_and_bottom_off();
-	async_gyro_drive(chassis, -16_in, 142);
-	wait_for_drive_complete();
-	gyro_turn_to(chassis, -203_deg);
-	async_gyro_drive(chassis, 92_in, 150);
-	wait_for_drive_complete();
-	gyro_turn_to(chassis, -150_deg, 100, 17.5, 0.017, 0.0, 0.0001, 2);
-	async_gyro_drive(chassis, 16_in, 142);
+	//printf("****************************************************n");
+	//drive_to_point(chassis, 0.0_in, 100.0, 15.0, 0.0_in, 100.0, 40.0);
 
-	intake_on(200);
-	pros::delay(1000);
-	intake_off();
-	intake_ball();
-
-  wait_for_drive_complete();
-	top_and_bottom_spin();
-	pros::delay(500);
-	top_and_bottom_off();
-	async_gyro_drive(chassis, -8_in, 142);
+	// async_gyro_drive(chassis, 37_in, 70);
+	// wait_for_drive_complete();
+	// gyro_turn_to(chassis, -69_deg, 100, 17.5, 0.017, 0.0, 0.0001, 2);
+	// async_gyro_drive(chassis, 16_in, 142);
+	//
+	// intake_on(200);
+	// pros::delay(1000);
+	// intake_off();
+	// intake_ball();
+	//
+  // wait_for_drive_complete();
+	// top_and_bottom_spin();
+	// pros::delay(500);
+	// top_and_bottom_off();
+	// async_gyro_drive(chassis, -16_in, 142);
+	// wait_for_drive_complete();
+	// gyro_turn_to(chassis, -203_deg);
+	// async_gyro_drive(chassis, 92_in, 150);
+	// wait_for_drive_complete();
+	// gyro_turn_to(chassis, -150_deg, 100, 17.5, 0.017, 0.0, 0.0001, 2);
+	// async_gyro_drive(chassis, 16_in, 142);
+	//
+	// intake_on(200);
+	// pros::delay(1000);
+	// intake_off();
+	// intake_ball();
+	//
+  // wait_for_drive_complete();
+	// top_and_bottom_spin();
+	// pros::delay(500);
+	// top_and_bottom_off();
+	// async_gyro_drive(chassis, -8_in, 142);
 
 	// async_gyro_drive(chassis, 24_in, 142);
 	// wait_for_drive_complete();

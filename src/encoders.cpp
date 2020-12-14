@@ -13,6 +13,10 @@ void encoder_display_task(void* param)
     // pros::lcd::print(2,"Sensors Initialized");
     //pros::lcd::print(3,"l %5.1f r %5.1f m %5.1f",shaft_enc_l->get(), shaft_enc_r->get(), shaft_enc_m->get());
     pros::delay(33);
+
+    printf("raw_left: %5.1f\n", shaft_enc_l->get());
+    printf("raw_right: %5.1f\n", shaft_enc_r->get());
+    printf("raw_middle: %5.1f\n", shaft_enc_m->get());
   }
 }
 

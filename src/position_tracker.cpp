@@ -65,16 +65,16 @@ void position_tracker_task(void* param)
 {
   //The left-right distance from the tracking center to the left tracking wheel
   //const double sL = 6.5;
-  const double sL = 6.3;
+  const double sL = 3.125;
   //The left-right distance from the tracking center to the right tracking wheel
   //const double sR = 6.5;
-  const double sR = 6.3;
+  const double sR = 3.125;
   //The forward-backward distance from the tracking center to the back tracking wheel
   // const double sS = 3.0;
-  const double sS = 0.0;
+  const double sS = 4.0;
   //Creates a constant for wheel diameter
-  //const double wheel_diam = 2.75;
-  const double wheel_diam = 3.25;
+  const double wheel_diam = 2.75;
+  //const double wheel_diam = 3.25;
   //Creates a constant for pi
   const double drive_pi = 3.14159265359;
   //Calculates a constant wheel circumference using diameter and pi
@@ -88,6 +88,7 @@ void position_tracker_task(void* param)
   double previous_left_shaft_val = 0.0;
   double previous_right_shaft_val = 0.0;
   double previous_middle_shaft_val = 0.0;
+  double previous_inertial_value = 0.0;
 
   //Creates a variable to keep track of the last calculated angle
   QAngle theta_0 = 0_deg;
@@ -98,11 +99,13 @@ void position_tracker_task(void* param)
     double left_shaft_val = (shaft_enc_l->get() / degrees_per_inch);
     double right_shaft_val = (shaft_enc_r->get() / degrees_per_inch);
     double middle_shaft_val = (shaft_enc_m->get() / degrees_per_inch);
+    double inertial_value = inertial_get_value();
 
     //2. Calculate the change in each encoders’ value since the last cycle
     double delta_L = (left_shaft_val - previous_left_shaft_val);
     double delta_R = (right_shaft_val - previous_right_shaft_val);
     double delta_S = (middle_shaft_val - previous_middle_shaft_val);
+    double delta_heading = (inertial_value - previous_inertial_value);
 
     pros::lcd::print(3,"l %5.1f r %5.1f m %5.1f",left_shaft_val, right_shaft_val, middle_shaft_val);
 
@@ -110,9 +113,11 @@ void position_tracker_task(void* param)
     previous_left_shaft_val = left_shaft_val;
     previous_right_shaft_val = right_shaft_val;
     previous_middle_shaft_val = middle_shaft_val;
+    previous_inertial_value = inertial_value;
 
     //6. Calculate the change in angle Δ𝜃 = (Δ𝐿 - Δ𝑅 / sL + sR)
-    QAngle delta_theta = (((delta_L - delta_R) / (sL + sR)) * radian);
+    //QAngle delta_theta = (((delta_L - delta_R) / (sL + sR)) * radian);
+    QAngle delta_theta = delta_heading * degree;
 
     //7. If Δ𝜃 = 0 (i.e. Δ𝐿 = Δ𝑅), then calculate the local offset Δ𝑑𝑙⃗ = [ Δ𝑆  Δ𝑅 ]
     // We need an If statement for driving straight because in step 8 we calculate sinΔ𝜃 (Δ𝜃 = 0 when driving straight) and the sin of 0 is = infinity (this will screw up the code)
@@ -146,8 +151,8 @@ void position_tracker_task(void* param)
     // 10. Calculate global offset Δ𝑑⃗  as Δ𝑑⃗⃗ rotated by −𝜃𝑚; this can be done by converting your existing
     // Cartesian coordinates to polar coordinates, changing the angle, then converting back
     // 11. Calculate new absolute position 𝑑1⃗⃗⃗ = 𝑑0 ⃗⃗ + Δ𝑑⃗
-    double cos_theta_m = okapi::cos(theta_m).getValue();
-	  double sin_theta_m = okapi::sin(theta_m).getValue();
+    double cos_theta_m = okapi::cos(-theta_m).getValue();
+	  double sin_theta_m = okapi::sin(-theta_m).getValue();
 
   	// Update the global position
   	x_position += delta_d_x * cos_theta_m;
@@ -164,6 +169,21 @@ void position_tracker_task(void* param)
     pros::delay(10);
   }
 
+}
+
+double get_x_position()
+{
+  return x_position;
+}
+
+double get_y_position()
+{
+  return y_position;
+}
+
+QAngle get_heading()
+{
+  return heading;
 }
 
 //starts the task that will read the location of the robot

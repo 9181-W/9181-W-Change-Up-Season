@@ -21,7 +21,7 @@ const double degrees_per_inch = degrees_per_circ / wheel_circ;
 //Drive X distance at Y speed
 //void drive(double distance_in_inches, double max_speed)
 //void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, double max_speed, bool drive_straight, double kp, double ki, double kd)
-void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distance, double y_max_speed, double y_min_speed, QLength x_distance, double x_max_speed, double x_min_speed, double target_heading, bool drive_straight)
+void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distance, double y_max_speed, double y_min_speed, QLength x_distance, double x_max_speed, double x_min_speed, double target_heading, double drive_straight_kp, bool drive_straight)
 {
 
     //Chassis arcade takes values from -1 to 1 so this line allows a value from -100 to 100
@@ -34,9 +34,11 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     //Sets the encoder units to use degrees instead of ticks
     chassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
 
-    const double y_drive_kp = 0.02;
+    //const double y_drive_kp = 0.02;
+    const double y_drive_kp = 0.03;
     const double y_drive_kd = -0.001;
-    const double x_drive_kp = 0.04;
+    //const double x_drive_kp = 0.04;
+    const double x_drive_kp = 0.05;
     const double x_drive_kd = -0.001;
 
     const double y_epsilon = 0.05;
@@ -44,7 +46,8 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     const double x_epsilon = 0.075;
     const double x_distance_epsilon = 0.5;
 
-    const double drive_straight_kp = 0.010;
+    //const double drive_straight_kp = 0.010;
+    const double drive_straight_epsilon = 1;
 
     //Creates a maximum speed for velocity adjustment so that the robot will accelerate smoothly
     //and have no jerk at the beggining
@@ -78,6 +81,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     //Defines the initial drive error (found in chassisController.cpp on github)
     double y_drive_error = y_distance_in_inches - get_y_position();
     double x_drive_error = x_distance_in_inches - get_x_position();
+    double drive_straight_error = target_heading - inertial_get_value();
 
     //Creates a variable that contains the initial gyro value (0)
     //inertial_reset();
@@ -89,6 +93,8 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
     double y_last_three_derivatives = 9999.9;
     double x_last_three_derivatives = 9999.9;
+
+
 
     //Drive while the robot hasn't reached its target distance
     while ( ((fabs(y_last_three_derivatives) > y_epsilon) || (fabs(y_drive_error) > fabs(y_distance_in_inches) / 2.0)) ||
@@ -114,7 +120,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
         y_drive_error = okapi::cos(get_heading()).getValue() * relativeY + okapi::sin(get_heading()).getValue() * relativeX;
 
         //exit if we have reached the target
-        if((fabs(y_drive_error) < y_distance_epsilon) && (fabs(x_drive_error) < x_distance_epsilon))
+        if((fabs(y_drive_error) < y_distance_epsilon) && (fabs(x_drive_error) < x_distance_epsilon) && (fabs(drive_straight_error) < drive_straight_epsilon))
         {
           printf("Exit x and y drive error too small!\n");
           break;
@@ -252,7 +258,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
           double drive_gyro_value = inertial_get_value();
 
           //Calculates the amount that the robot is off of its heading
-          double drive_straight_error = target_heading - drive_gyro_value;
+          drive_straight_error = target_heading - drive_gyro_value;
 
           //Creates a turn speed so that different sides can be slowed down
           turn_speed = drive_straight_error * drive_straight_kp;
@@ -289,58 +295,3 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     //Stops the robot from moving after the robot has reached its target distance
     chassis->getModel()->stop();
 }
-
-// std::shared_ptr<ChassisController> async_chassis;
-// QLength async_distance;
-// double async_max_speed;
-// bool async_complete = true;
-// // double async_kp = 0.0;
-// // double async_ki = 0.0;
-// // double async_kd = 0.0;
-// pros::Task* drive_task = NULL;
-//
-// void drive_async(void* param)
-// {
-//   while (true)
-//   {
-//     if(!async_complete)
-//     {
-//       //gyro_drive(async_chassis, async_distance, async_max_speed, async_kp, async_ki, async_kd);
-//       gyro_drive(async_chassis, async_distance, async_max_speed);
-//       async_complete = true;
-//     }
-//     pros::delay(33);
-//   }
-// }
-//
-// bool drive_is_complete()
-// {
-//   return async_complete;
-// }
-//
-// void wait_for_drive_complete()
-// {
-//   while(!async_complete)
-//   {
-//     pros::delay(10);
-//   }
-// }
-//
-// //void async_gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, double max_speed, double kp, double ki, double kd)
-// void async_gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, double max_speed)
-// {
-//   async_chassis = chassis;
-//   async_distance = distance;
-//   async_max_speed = max_speed;
-//   // async_kp = kp;
-//   // async_ki = ki;
-//   // async_kd = kd;
-//
-//   if (drive_task == NULL)
-//   {
-//     drive_task = new pros::Task(drive_async, (void*)"PROSDRIVE", TASK_PRIORITY_DEFAULT,
-//                                              TASK_STACK_DEPTH_DEFAULT, "Async Drive Task");
-//   }
-//
-//   async_complete = false;
-// }

@@ -60,7 +60,7 @@ void top_and_bottom_spin()
 
 void top_and_bottom_eject()
 {
-  bottom_mtr.moveVelocity(-300);
+  bottom_mtr.moveVelocity(300);
   top_mtr.moveVelocity(-300);
 }
 

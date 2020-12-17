@@ -21,7 +21,7 @@ const double degrees_per_inch = degrees_per_circ / wheel_circ;
 //Drive X distance at Y speed
 //void drive(double distance_in_inches, double max_speed)
 //void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, double max_speed, bool drive_straight, double kp, double ki, double kd)
-void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distance, double y_max_speed, double y_min_speed, QLength x_distance, double x_max_speed, double x_min_speed, double target_heading, double drive_straight_kp, bool drive_straight)
+void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distance, double y_max_speed, double y_min_speed, QLength x_distance, double x_max_speed, double x_min_speed, double target_heading, double drive_straight_kp, double y_drive_kp, double x_drive_kp, bool drive_straight)
 {
 
     //Chassis arcade takes values from -1 to 1 so this line allows a value from -100 to 100
@@ -35,10 +35,10 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     chassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
 
     //const double y_drive_kp = 0.02;
-    const double y_drive_kp = 0.03;
+    //const double y_drive_kp = 0.03;
     const double y_drive_kd = -0.001;
     //const double x_drive_kp = 0.04;
-    const double x_drive_kp = 0.05;
+    //const double x_drive_kp = 0.05;
     const double x_drive_kd = -0.001;
 
     const double y_epsilon = 0.05;
@@ -51,10 +51,11 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
     //Creates a maximum speed for velocity adjustment so that the robot will accelerate smoothly
     //and have no jerk at the beggining
-    const double maximum_vel_adj = 0.2;
+    const double maximum_vel_adj = 0.1;
     const double x_maximum_vel_adj = 0.2;
 
     const double zero_speed = 0.0075;
+    const double turn_min_speed = 0.12;
 
     //Converts Qlength distance to distance_in_inches
     double y_distance_in_inches = y_distance.convert(inch);
@@ -98,7 +99,8 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
     //Drive while the robot hasn't reached its target distance
     while ( ((fabs(y_last_three_derivatives) > y_epsilon) || (fabs(y_drive_error) > fabs(y_distance_in_inches) / 2.0)) ||
-            ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(x_drive_error) > fabs(x_distance_in_inches) / 2.0)) )
+            ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(x_drive_error) > fabs(x_distance_in_inches) / 2.0)) ||
+            ((fabs(drive_straight_error) > drive_straight_epsilon) || (fabs(drive_straight_error) > fabs(target_heading) / 2.0)) )
     //while (fabs(last_three_derivatives) > epsilon)
     {
         // ******************************************************************************************************************************* //
@@ -262,6 +264,24 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
           //Creates a turn speed so that different sides can be slowed down
           turn_speed = drive_straight_error * drive_straight_kp;
+
+          if(fabs(turn_speed) < zero_speed)
+          {
+            turn_speed = 0.0;
+          }
+          else if(fabs(turn_speed) < turn_min_speed)
+          {
+              if(turn_speed > 0)
+              {
+                  turn_speed = turn_min_speed;
+              }
+
+              else if(turn_speed < 0)
+              {
+                  turn_speed = turn_min_speed * -1;
+              }
+          }
+
           printf("Gyro: %5.1f  Turn Speed: %5.1f\n",drive_gyro_value,turn_speed);
         }
 

@@ -106,7 +106,7 @@ void bottom_controls()
 
   else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_2_value() < 2500))
   {
-    bottom_mtr.moveVelocity(-75);
+    bottom_mtr.moveVelocity(0);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::R1)) == true)

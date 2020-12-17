@@ -23,12 +23,12 @@ void modified_autonomous()
 
 	//first tower
 
-	// top_mtr.moveVelocity(600);
-	// bottom_mtr.moveVelocity(200);
-	// pros::delay(300);
-	// top_mtr.moveVelocity(0);
-	// bottom_mtr.moveVelocity(0);
-	// pros::delay(200);
+	top_mtr.moveVelocity(600);
+	bottom_mtr.moveVelocity(200);
+	pros::delay(300);
+	top_mtr.moveVelocity(0);
+	bottom_mtr.moveVelocity(0);
+	pros::delay(200);
 	// top_mtr.moveVelocity(600);
 	// pros::delay(300);
 	// top_mtr.moveVelocity(0);
@@ -48,11 +48,88 @@ void modified_autonomous()
   //drive_to_point(chassis, 72_in, 100.0, 15.0, 0.0_in, 100.0, 20.0);
 	printf("****************************************************n");
 	//async_drive_to_point(chassis, 23.5_in, 100.0, 15.0, 23.5_in, 100.0, 40.0, 90, 0.009);
-	async_drive_to_point(chassis, 24_in, 100.0, 15.0, 24_in, 100.0, 25.0, 45, 0.009);
+	//drive_to_point(chassis, 0.0_in, 100.0, 15.0, 0.0_in, 100.0, 40.0, 90);
+
+
+
+
+	// async_drive_to_point(chassis, 52_in, 100.0, 15.0, 0_in, 100.0, 15.0, 0, 0.009, 0.03, 0.05);
+	// intake_on(200);
+	// intake_ball();
+	// wait_for_drive_complete_2();
+	// intake_on(0);
+	// async_drive_to_point(chassis, 35_in, 100.0, 15.0, 0_in, 100.0, 50.0, -68, 0.012, 0.03, 0.09);
+	// wait_for_drive_complete_2();
+	// async_drive_to_point(chassis, 35_in, 100.0, 15.0, -20_in, 100.0, 25.0, -68, 0.012, 0.03, 0.05);
+	// wait_for_drive_complete_2();
+	// top_and_bottom_spin();
+	// pros::delay(750);
+	// top_and_bottom_off();
+
+	async_drive_to_point(chassis, 18_in, 100.0, 30.0, 0_in, 100.0, 15.0, 0, 0.009, 0.02, 0.05);
 	intake_on(200);
+	intake_ball();
 	wait_for_drive_complete_2();
 	intake_on(0);
-	//drive_to_point(chassis, 0.0_in, 100.0, 15.0, 0.0_in, 100.0, 40.0, 90);
+	//async_drive_to_point(chassis, 25_in, 100.0, 15.0, 0_in, 100.0, 15.0, -130, 0.014, 0.03, 0.05);
+	async_drive_to_point(chassis, 5_in, 100.0, 15.0, -22_in, 100.0, 20.0, -130, 0.012, 0.03, 0.05);
+	wait_for_drive_complete_2();
+	top_and_bottom_spin();
+	intake_on(200);
+	pros::delay(750);
+	top_and_bottom_off();
+	intake_off();
+	intake_on(-150);
+	top_and_bottom_eject();
+	async_drive_to_point(chassis, 14_in, 100.0, 15.0, -8_in, 100.0, 25.0, -170, 0.012, 0.03, 0.05);
+	wait_for_drive_complete_2();
+	top_and_bottom_off();
+	intake_off();
+
+	async_drive_to_point(chassis, 25_in, 100.0, 15.0, -22_in, 100.0, 15.0, -70, 0.012, 0.03, 0.05);
+	intake_on(200);
+	intake_ball();
+	wait_for_drive_complete_2();
+	intake_off();
+
+	async_drive_to_point(chassis, 63.5_in, 100.0, 15.0, -7_in, 100.0, 33.0, 10, 0.02, 0.03, 0.05); //jerk drive
+	intake_on(200);
+	intake_ball();
+	wait_for_drive_complete_2();
+	intake_off();
+
+	async_drive_to_point(chassis, 63.5_in, 100.0, 15.0, -7_in, 100.0, 33.0, -90, 0.015, 0.03, 0.05);
+	wait_for_drive_complete_2();
+
+	async_drive_to_point(chassis, 63.5_in, 100.0, 15.0, -30_in, 100.0, 15.0, -90, 0.02, 0.07, 0.07);
+	wait_for_drive_complete_2();
+	top_and_bottom_spin();
+	intake_on(200);
+	pros::delay(750);
+	top_and_bottom_off();
+	intake_off();
+
+	intake_on(-150);
+	top_and_bottom_eject();
+	async_drive_to_point(chassis, 63.5_in, 100.0, 15.0, -9_in, 100.0, 25.0, -110, 0.02, 0.03, 0.05);
+	wait_for_drive_complete_2();
+	top_and_bottom_off();
+	intake_off();
+
+	async_drive_to_point(chassis, 100.5_in, 100.0, 15.0, -22_in, 100.0, 25.0, -60, 0.012, 0.03, 0.05);
+	intake_on(200);
+	intake_ball();
+	wait_for_drive_complete_2();
+	intake_off();
+
+	async_drive_to_point(chassis, 127_in, 100.0, 15.0, -18_in, 100.0, 25.0, -48, 0.02, 0.03, 0.05);
+	wait_for_drive_complete_2();
+	top_and_bottom_spin();
+	intake_on(200);
+	pros::delay(750);
+	top_and_bottom_off();
+	intake_off();
+
 
 	//printf("****************************************************n");
 	//drive_to_point(chassis, 0.0_in, 100.0, 15.0, 0.0_in, 100.0, 40.0);

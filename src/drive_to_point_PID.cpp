@@ -21,7 +21,7 @@ const double degrees_per_inch = degrees_per_circ / wheel_circ;
 //Drive X distance at Y speed
 //void drive(double distance_in_inches, double max_speed)
 //void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, double max_speed, bool drive_straight, double kp, double ki, double kd)
-void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distance, double y_max_speed, double y_min_speed, QLength x_distance, double x_max_speed, double x_min_speed, double target_heading, double drive_straight_kp, double y_drive_kp, double x_drive_kp, bool drive_straight)
+void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distance, double y_max_speed, double y_min_speed, QLength x_distance, double x_max_speed, double x_min_speed, double target_heading, double drive_straight_kp, double y_drive_kp, double x_drive_kp,  double turn_min_speed, bool drive_straight)
 {
 
     //Chassis arcade takes values from -1 to 1 so this line allows a value from -100 to 100
@@ -44,7 +44,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     const double y_epsilon = 0.05;
     const double y_distance_epsilon = 0.5;
     const double x_epsilon = 0.075;
-    const double x_distance_epsilon = 0.5;
+    const double x_distance_epsilon = 1.0;
 
     //const double drive_straight_kp = 0.010;
     const double drive_straight_epsilon = 1;
@@ -55,17 +55,23 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     const double x_maximum_vel_adj = 0.2;
 
     const double zero_speed = 0.0075;
-    const double turn_min_speed = 0.12;
+    //const double turn_min_speed = 0.12;
 
     //Converts Qlength distance to distance_in_inches
-    double y_distance_in_inches = y_distance.convert(inch);
-    double x_distance_in_inches = x_distance.convert(inch);
+    double y_target_coordinate = y_distance.convert(inch);
+    double x_target_coordinate = x_distance.convert(inch);
     //Draws starting position from the encoders (found in chassisController.cpp on github)
     double y_start_pos_value = get_y_position();
     double x_start_pos_value = get_x_position();
     //Calculates current position based on start position (found in chassisController.cpp on github)
     double y_current_pos_value = get_y_position() - y_start_pos_value;
     double x_current_pos_value = get_x_position() - x_start_pos_value;
+
+    double y_relative_initial_drive_error = y_target_coordinate - get_y_position();
+    double x_relative_initial_drive_error = x_target_coordinate - get_x_position();
+    double x_initial_drive_error = okapi::cos(get_heading()).getValue() * x_relative_initial_drive_error - okapi::sin(get_heading()).getValue() * x_relative_initial_drive_error;
+    double y_initial_drive_error = okapi::cos(get_heading()).getValue() * y_relative_initial_drive_error + okapi::sin(get_heading()).getValue() * y_relative_initial_drive_error;
+
     //Sets last error to zero before driving starts
     double y_last_error = 0.0;
     double x_last_error = 0.0;
@@ -73,15 +79,15 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     double y_second_last_error = 9999.9;
     double x_second_last_error = 9999.9;
 
-    double y_third_last_error = 9999.9;
+    double y_third_last_error = 9999.9;\
     double x_third_last_error = 9999.9;
 
     double y_fourth_last_error = 9999.9;
     double x_fourth_last_error = 9999.9;
 
     //Defines the initial drive error (found in chassisController.cpp on github)
-    double y_drive_error = y_distance_in_inches - get_y_position();
-    double x_drive_error = x_distance_in_inches - get_x_position();
+    double y_drive_error = y_target_coordinate - get_y_position();
+    double x_drive_error = x_target_coordinate - get_x_position();
     double drive_straight_error = target_heading - inertial_get_value();
 
     //Creates a variable that contains the initial gyro value (0)
@@ -98,8 +104,8 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
 
     //Drive while the robot hasn't reached its target distance
-    while ( ((fabs(y_last_three_derivatives) > y_epsilon) || (fabs(y_drive_error) > fabs(y_distance_in_inches) / 2.0)) ||
-            ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(x_drive_error) > fabs(x_distance_in_inches) / 2.0)) ||
+    while ( ((fabs(y_last_three_derivatives) > y_epsilon) || (fabs(y_drive_error) > fabs(y_initial_drive_error) / 2.0)) ||
+            ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(x_drive_error) > fabs(x_initial_drive_error) / 2.0)) ||
             ((fabs(drive_straight_error) > drive_straight_epsilon) || (fabs(drive_straight_error) > fabs(target_heading) / 2.0)) )
     //while (fabs(last_three_derivatives) > epsilon)
     {
@@ -107,7 +113,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
         //  This code uses proportional , differential, and integral constants to calculate the best speed to reach the desired distance   //
         // ******************************************************************************************************************************* //
 
-        printf("tar x: %5.1f  tar y: %5.1f\n", x_distance_in_inches, y_distance_in_inches);
+        printf("tar x: %5.1f  tar y: %5.1f\n", x_target_coordinate, y_target_coordinate);
         printf("cur x: %5.1f  cur y: %5.1f  head: %5.2f\n", get_x_position(), get_y_position(), get_heading().convert(degree));
         printf("x_err: %5.1f  y_err: %5.1f\n",x_drive_error,y_drive_error);
 
@@ -116,8 +122,8 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
         // x_drive_error = x_distance_in_inches - get_x_position();
 
         //https://gamedev.stackexchange.com/questions/79765/how-do-i-convert-from-the-global-coordinate-space-to-a-local-space
-        double relativeX = x_distance_in_inches - get_x_position();
-        double relativeY = y_distance_in_inches - get_y_position();
+        double relativeX = x_target_coordinate - get_x_position();
+        double relativeY = y_target_coordinate - get_y_position();
         x_drive_error = okapi::cos(get_heading()).getValue() * relativeX - okapi::sin(get_heading()).getValue() * relativeY;
         y_drive_error = okapi::cos(get_heading()).getValue() * relativeY + okapi::sin(get_heading()).getValue() * relativeX;
 

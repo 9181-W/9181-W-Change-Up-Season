@@ -41,9 +41,9 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     //const double x_drive_kp = 0.05;
     const double x_drive_kd = -0.001;
 
-    const double y_epsilon = 0.05;
+    const double y_epsilon = 0.05;//5
     const double y_distance_epsilon = 0.5;
-    const double x_epsilon = 0.075;
+    const double x_epsilon = 0.05;//75
     const double x_distance_epsilon = 1.0;
 
     //const double drive_straight_kp = 0.010;
@@ -69,8 +69,10 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
     double y_relative_initial_drive_error = y_target_coordinate - get_y_position();
     double x_relative_initial_drive_error = x_target_coordinate - get_x_position();
-    double x_initial_drive_error = okapi::cos(get_heading()).getValue() * x_relative_initial_drive_error - okapi::sin(get_heading()).getValue() * x_relative_initial_drive_error;
-    double y_initial_drive_error = okapi::cos(get_heading()).getValue() * y_relative_initial_drive_error + okapi::sin(get_heading()).getValue() * y_relative_initial_drive_error;
+    // double x_initial_drive_error = okapi::cos(get_heading()).getValue() * x_relative_initial_drive_error - okapi::sin(get_heading()).getValue() * x_relative_initial_drive_error;
+    // double y_initial_drive_error = okapi::cos(get_heading()).getValue() * y_relative_initial_drive_error + okapi::sin(get_heading()).getValue() * y_relative_initial_drive_error;
+    double initial_drive_error = sqrt((y_relative_initial_drive_error * y_relative_initial_drive_error) + (x_relative_initial_drive_error * x_relative_initial_drive_error));
+    double total_drive_error = initial_drive_error;
 
     //Sets last error to zero before driving starts
     double y_last_error = 0.0;
@@ -79,7 +81,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     double y_second_last_error = 9999.9;
     double x_second_last_error = 9999.9;
 
-    double y_third_last_error = 9999.9;\
+    double y_third_last_error = 9999.9;
     double x_third_last_error = 9999.9;
 
     double y_fourth_last_error = 9999.9;
@@ -104,9 +106,14 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
 
     //Drive while the robot hasn't reached its target distance
-    while ( ((fabs(y_last_three_derivatives) > y_epsilon) || (fabs(y_drive_error) > fabs(y_initial_drive_error) / 2.0)) ||
-            ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(x_drive_error) > fabs(x_initial_drive_error) / 2.0)) ||
-            ((fabs(drive_straight_error) > drive_straight_epsilon) || (fabs(drive_straight_error) > fabs(target_heading) / 2.0)) )
+    // while ( ((fabs(y_last_three_derivatives) > y_epsilon) || (fabs(y_drive_error) > fabs(y_initial_drive_error) / 2.0)) ||
+    //         ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(x_drive_error) > fabs(x_initial_drive_error) / 2.0)) ||
+    //         ((fabs(drive_straight_error) > drive_straight_epsilon) || (fabs(drive_straight_error) > fabs(target_heading) / 2.0)) )
+
+    while ( ((fabs(y_last_three_derivatives) > y_epsilon) || (fabs(total_drive_error) > fabs(initial_drive_error) / 2.0)) ||
+            ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(total_drive_error) > fabs(initial_drive_error) / 2.0)) ||
+            ((fabs(drive_straight_error) > drive_straight_epsilon * 3)) )
+
     //while (fabs(last_three_derivatives) > epsilon)
     {
         // ******************************************************************************************************************************* //
@@ -126,6 +133,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
         double relativeY = y_target_coordinate - get_y_position();
         x_drive_error = okapi::cos(get_heading()).getValue() * relativeX - okapi::sin(get_heading()).getValue() * relativeY;
         y_drive_error = okapi::cos(get_heading()).getValue() * relativeY + okapi::sin(get_heading()).getValue() * relativeX;
+        total_drive_error = sqrt((x_drive_error * x_drive_error) + (y_drive_error * y_drive_error));
 
         //exit if we have reached the target
         if((fabs(y_drive_error) < y_distance_epsilon) && (fabs(x_drive_error) < x_distance_epsilon) && (fabs(drive_straight_error) < drive_straight_epsilon))

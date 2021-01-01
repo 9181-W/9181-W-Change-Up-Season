@@ -9,6 +9,7 @@ void motor_stop();
 void intake_on(double speed);
 void intake_off();
 void top_and_bottom_spin();
+void top_and_bottom_spin_slow();
 void top_and_bottom_off();
 void top_and_bottom_spin_backwards();
 void top_and_bottom_eject();

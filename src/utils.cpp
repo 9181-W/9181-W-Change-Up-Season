@@ -58,12 +58,17 @@ void top_and_bottom_spin()
   top_mtr.moveVelocity(600);
 }
 
-void top_and_bottom_eject()
+void top_and_bottom_spin_slow()
 {
-  bottom_mtr.moveVelocity(300);
-  top_mtr.moveVelocity(-300);
+  bottom_mtr.moveVelocity(-100);
+  top_mtr.moveVelocity(100);
 }
 
+void top_and_bottom_eject()
+{
+  bottom_mtr.moveVelocity(600);
+  top_mtr.moveVelocity(-600);//300
+}
 
 void top_and_bottom_spin_backwards()
 {

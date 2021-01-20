@@ -18,6 +18,15 @@ const double degrees_per_circ = 360.0;
 //Encoder degrees per inch
 const double degrees_per_inch = degrees_per_circ / wheel_circ;
 
+double maximum_vel_adj = 0.1;
+
+double drive_straight_epsilon = 1;
+
+double y_epsilon = 0.05;//5
+double y_distance_epsilon = 0.5;
+double x_epsilon = 0.05;//75
+double x_distance_epsilon = 1.0;
+
 //Drive X distance at Y speed
 //void drive(double distance_in_inches, double max_speed)
 //void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, double max_speed, bool drive_straight, double kp, double ki, double kd)
@@ -41,17 +50,16 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     //const double x_drive_kp = 0.05;
     const double x_drive_kd = -0.001;
 
-    const double y_epsilon = 0.05;//5
-    const double y_distance_epsilon = 0.5;
-    const double x_epsilon = 0.05;//75
-    const double x_distance_epsilon = 1.0;
+    // const double y_epsilon = 0.05;//5
+    // const double y_distance_epsilon = 0.5;
+    // const double x_epsilon = 0.05;//75
+    // const double x_distance_epsilon = 1.0;
 
     //const double drive_straight_kp = 0.010;
-    const double drive_straight_epsilon = 1;
+    // const double drive_straight_epsilon = 1;
 
     //Creates a maximum speed for velocity adjustment so that the robot will accelerate smoothly
     //and have no jerk at the beggining
-    const double maximum_vel_adj = 0.1;
     const double x_maximum_vel_adj = 0.2;
 
     const double zero_speed = 0.0075;
@@ -328,4 +336,28 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
     //Stops the robot from moving after the robot has reached its target distance
     chassis->getModel()->stop();
+}
+
+double allowable_errors_up()
+{
+  // x_distance_epsilon = 1.5;
+  // y_distance_epsilon = 1.0;
+  drive_straight_epsilon = 2.0;
+}
+
+double maximum_vel_adj_up()
+{
+  maximum_vel_adj = 1.0;
+}
+
+double maximum_vel_adj_back()
+{
+  maximum_vel_adj = 0.1;
+}
+
+double allowable_errors_back()
+{
+  // x_distance_epsilon = 1.0;
+  // y_distance_epsilon = 0.5;
+  drive_straight_epsilon = 1.0;
 }

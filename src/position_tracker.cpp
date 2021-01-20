@@ -65,13 +65,13 @@ void position_tracker_task(void* param)
 {
   //The left-right distance from the tracking center to the left tracking wheel
   //const double sL = 6.5;
-  const double sL = 3.125;
+  const double sL = 3.09375;
   //The left-right distance from the tracking center to the right tracking wheel
   //const double sR = 6.5;
-  const double sR = 3.125;
+  const double sR = 3.09375;
   //The forward-backward distance from the tracking center to the back tracking wheel
   // const double sS = 3.0;
-  const double sS = 4.0;
+  const double sS = 2.8; //2.8125
   //Creates a constant for wheel diameter
   const double wheel_diam = 2.75;
   //const double wheel_diam = 3.25;
@@ -186,6 +186,30 @@ QAngle get_heading()
   return heading;
 }
 
+double reset_pos_x_first()
+{
+  x_position = -20;
+}
+
+double reset_pos_y_first()
+{
+  y_position = 122;
+}
+
+double reset_pos_x_second()
+{
+  x_position = 97;
+}
+
+double reset_pos_y_second()
+{
+  y_position = 9;
+}
+
+double reset_pos_x_third()
+{
+  x_position = 95;
+}
 //starts the task that will read the location of the robot
 void tracker_initialize()
 {

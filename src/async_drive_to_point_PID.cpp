@@ -33,7 +33,7 @@ void async_drive_to_point(void* param)
       drive_to_point(chassis, async_y_distance, async_y_max_speed, async_y_min_speed, async_x_distance, async_x_max_speed, async_x_min_speed, async_target_heading, async_drive_straight_kp, async_y_drive_kp, async_x_drive_kp, async_turn_min_speed, true);
       async_complete_2 = true;
     }
-    pros::delay(33);
+    pros::delay(10);
   }
 }
 

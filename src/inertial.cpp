@@ -1,11 +1,14 @@
 #include "okapi/api.hpp"
 using namespace okapi;
 
-#define INERTIAL_PORT 15
+#define INERTIAL_PORT_1 15
+#define INERTIAL_PORT_2 14
 
 pros::Imu* inertial_1 = NULL;
+pros::Imu* inertial_2 = NULL;
 
-double inertial_value = 0.0;
+double inertial_value_1 = 0.0;
+double inertial_value_2 = 0.0;
 
 void inertial_reading(void* param)
 {
@@ -13,23 +16,34 @@ void inertial_reading(void* param)
   {
     if (inertial_1->is_calibrating() == true)
     {
-      inertial_value = 0;
+      inertial_value_1 = 0;
     }
     else
     {
-      inertial_value = inertial_1->get_rotation();
+      inertial_value_1 = inertial_1->get_rotation();
     }
 
-    pros::lcd::print(7,"Inertial Value %f",inertial_value);
+    if (inertial_2->is_calibrating() == true)
+    {
+      inertial_value_2 = 0;
+    }
+    else
+    {
+      inertial_value_2 = inertial_2->get_rotation();
+    }
+
+    pros::lcd::print(7,"Inertial Value %5.2f",((inertial_value_1 + inertial_value_2) / 2));
     pros::delay(33);
   }
 }
 
 void inertial_initialize()
 {
-  inertial_1 = new pros::Imu(INERTIAL_PORT);
+  inertial_1 = new pros::Imu(INERTIAL_PORT_1);
+  inertial_2 = new pros::Imu(INERTIAL_PORT_2);
 
   inertial_1->reset();
+  inertial_2->reset();
 
   double start_time = pros::c::millis();
   pros::lcd::print(7,"CALIBRATING");
@@ -39,7 +53,7 @@ void inertial_initialize()
   do {
     pros::delay(50);
 
-  } while(inertial_1->is_calibrating() == true);
+  } while((inertial_1->is_calibrating() == true) && (inertial_2->is_calibrating() == true));
 
   double end_time = pros::c::millis();
   //pros::lcd::print(5,"Calibration Time %f", end_time - start_time);
@@ -55,5 +69,5 @@ void inertial_reset()
 
 double inertial_get_value()
 {
-  return inertial_value;
+  return ((inertial_value_1 + inertial_value_2) / 2);
 }

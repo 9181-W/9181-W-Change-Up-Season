@@ -361,3 +361,18 @@ double allowable_errors_back()
   // y_distance_epsilon = 0.5;
   drive_straight_epsilon = 1.0;
 }
+
+double allowable_errors_up_1()
+{
+  x_distance_epsilon = 6.5;
+  y_distance_epsilon = 6.0;
+  drive_straight_epsilon = 3.0;
+}
+
+
+double allowable_errors_back_1()
+{
+  x_distance_epsilon = 0.2;
+  y_distance_epsilon = 0.4;
+  drive_straight_epsilon = 1.0;
+}

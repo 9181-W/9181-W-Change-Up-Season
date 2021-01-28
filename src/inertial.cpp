@@ -1,8 +1,8 @@
 #include "okapi/api.hpp"
 using namespace okapi;
 
-#define INERTIAL_PORT_1 15
-#define INERTIAL_PORT_2 14
+#define INERTIAL_PORT_1 14
+#define INERTIAL_PORT_2 15
 
 pros::Imu* inertial_1 = NULL;
 pros::Imu* inertial_2 = NULL;
@@ -32,7 +32,8 @@ void inertial_reading(void* param)
       inertial_value_2 = inertial_2->get_rotation();
     }
 
-    pros::lcd::print(7,"Inertial Value %5.2f",((inertial_value_1 + inertial_value_2) / 2));
+    pros::lcd::print(1,"Inertial Value 1 %5.2f",(inertial_value_1));
+    pros::lcd::print(2,"Inertial Value 2 %5.2f",(inertial_value_2));
     pros::delay(33);
   }
 }
@@ -69,5 +70,6 @@ void inertial_reset()
 
 double inertial_get_value()
 {
+  //return (inertial_value_2);
   return ((inertial_value_1 + inertial_value_2) / 2);
 }

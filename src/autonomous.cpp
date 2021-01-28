@@ -30,40 +30,8 @@ void modified_autonomous()
 	top_mtr.moveVelocity(0);
 	bottom_mtr.moveVelocity(0);
 	pros::delay(200);
-	// top_mtr.moveVelocity(600);
-	// pros::delay(300);
-	// top_mtr.moveVelocity(0);
-	// pros::delay(200);
-	// top_mtr.moveVelocity(600);
-	// pros::delay(300);
-	// top_mtr.moveVelocity(0);
-	// pros::delay(200);
-	// top_mtr.moveVelocity(600);
-	// pros::delay(300);
-	// top_mtr.moveVelocity(0);
 
 	//void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distance, double y_max_speed, double y_min_speed, QLength x_distance, double x_max_speed, double x_min_speed);
-
-	//drive_to_point(chassis, -23.5_in, 100.0, 15.0, -23.5_in, 100.0, 40.0);
-	//drive_to_point(chassis, 0_in, 100.0, 15.0, 72.0_in, 100.0, 30.0);
-  //drive_to_point(chassis, 72_in, 100.0, 15.0, 0.0_in, 100.0, 20.0);
-	printf("****************************************************n");
-	//async_drive_to_point(chassis, 23.5_in, 100.0, 15.0, 23.5_in, 100.0, 40.0, 90, 0.009);
-	//drive_to_point(chassis, 0.0_in, 100.0, 15.0, 0.0_in, 100.0, 40.0, 90);
-
-	// gyro_turn(chassis, -180_deg, 30, 22, 0.012, 0.0, -0.009, 1.25);
-
-	// async_drive_to_point(chassis, 0_in, 100.0, 15.0, 0_in, 100.0, 15.0, -180, 0.002, 0.05, 0.06, 0.12);//fourth ball
-	// wait_for_drive_complete_2();
-
-	// async_drive_to_point(chassis, 10_in, 100.0, 20.0, -10_in, 100.0, 25.0, -90, 0.04, 0.05, 0.175, 0.12);//fourth ball
-	// wait_for_drive_complete_2();
-	//
-	// async_drive_to_point(chassis, -10_in, 100.0, 20.0, -10_in, 100.0, 35.0, -90, 0.04, 0.05, 0.175, 0.12);//fourth ball
-	// wait_for_drive_complete_2();
-	//
-	// async_drive_to_point(chassis, 0_in, 100.0, 15.0, 0_in, 100.0, 50.0, 0, 0.012, 0.04, 0.1, 0.12);
-	// wait_for_drive_complete_2();
 
 
 
@@ -76,7 +44,7 @@ void modified_autonomous()
 
 	//Driver 1 //X - (-21.9) //Y - (5.1)
 	//Driver 2 //X - (-21.4) //Y - (6.8)
-	//Auto //X - (21.4) //Y - (5.9)
+	//Auto //X - (21.4) 		 //Y - (5.9)
 
 	async_drive_to_point(chassis, 6.8_in, 100.0, 20.0, -21.5_in, 100.0, 15.0, -130, 0.018, 0.05, 0.04, 0.12);//first tower //former//X - (-21.5)//Y (6)
 	wait_for_drive_complete_2();
@@ -99,7 +67,7 @@ void modified_autonomous()
 	wait_for_drive_complete_2();
 	intake_off();
 
-	async_drive_to_point(chassis, 63.5_in, 100.0, 10.0, -6_in, 100.0, 25.0, 14, 0.03, 0.06, 0.08, 0.12); //third ball
+	async_drive_to_point(chassis, 62.5_in, 100.0, 10.0, -6_in, 100.0, 25.0, 14, 0.03, 0.06, 0.08, 0.12); //third ball
 	intake_on(200);
 	intake_ball();
 	wait_for_drive_complete_2();
@@ -161,7 +129,7 @@ void modified_autonomous()
 	//Driver 4 //X - (-22.7) //Y - (121.2)
 	//Auto //X - (-22.2) //Y - (123.4)
 
-	async_drive_to_point(chassis, 122_in, 100.0, 15.0, -23.5_in, 100.0, 20.0, -42.5, 0.012, 0.05, 0.06, 0.12);//third tower //former//X - (-22.5)//Y (123.5)
+	async_drive_to_point(chassis, 123.5_in, 100.0, 15.0, -22_in, 100.0, 20.0, -42.5, 0.012, 0.05, 0.06, 0.12);//third tower //former//X - (-22.5)//Y (123.5)
 	wait_for_drive_complete_2();
 	top_and_bottom_spin();
 	intake_on(200);
@@ -181,7 +149,7 @@ void modified_autonomous()
 	wait_for_drive_complete_2();
 	intake_off();
 
-	async_drive_to_point(chassis, 87.5_in, 100.0, 20.0, 35_in, 100.0, 20.0, 131, 0.01, 0.04, 0.05, 0.12);//sixth ball
+	async_drive_to_point(chassis, 87.5_in, 100.0, 20.0, 35_in, 100.0, 20.0, 137, 0.012, 0.04, 0.05, 0.12);//sixth ball
 	intake_on(200);
 	intake_ball();
 	wait_for_drive_complete_2();
@@ -193,6 +161,8 @@ void modified_autonomous()
 	//Driver 4 //X - (34.0) //Y - (118.6)
 	//Auto //X - (37.2) //Y - (120.1)
 
+	allowable_errors_up();
+
 	async_drive_to_point(chassis, 120.0_in, 100.0, 20.0, 36_in, 100.0, 30.0, 0, 0.018, 0.06, 0.07, 0.12);//fourth tower //former//X - (36)//Y (122.5)
 	intake_ball();
 	wait_for_drive_complete_2();
@@ -202,9 +172,11 @@ void modified_autonomous()
 	top_and_bottom_off();
 	intake_off();
 
+	allowable_errors_back();
+
 	//reset_pos_y_first();
 
-	async_drive_to_point(chassis, 110_in, 100.0, 15.0, 42_in, 100.0, 25.0, -40, 0.012, 0.04, 0.08, 0.12);
+	async_drive_to_point(chassis, 104_in, 100.0, 15.0, 42_in, 100.0, 25.0, -40, 0.012, 0.04, 0.08, 0.12);
 	intake_on(-150);
 	top_and_bottom_eject();
 	wait_for_drive_complete_2();
@@ -217,7 +189,7 @@ void modified_autonomous()
 	wait_for_drive_complete_2();
 	intake_off();
 
-	async_drive_to_point(chassis, 101_in, 100.0, 20.0, 96_in, 100.0, 30.0, 90, 0.008, 0.05, 0.08, 0.12);//eighth ball
+	async_drive_to_point(chassis, 98_in, 100.0, 20.0, 96_in, 100.0, 30.0, 90, 0.008, 0.05, 0.08, 0.12);//eighth ball
 	intake_on(200);
 	intake_ball();
 	wait_for_drive_complete_2();
@@ -232,9 +204,12 @@ void modified_autonomous()
 	//Driver 2 //X - (91.6) //Y - (123.8)
 	//Auto //X - (94.6) //Y - (124.9)
 
-	async_drive_to_point(chassis, 116.8_in, 100.0, 20.0, 86.3_in, 100.0, 25.0, 45, 0.012, 0.15, 0.2, 0.12);//align to fifth tower
+	allowable_errors_up();
+
+	async_drive_to_point(chassis, 111.8_in, 100.0, 20.0, 86.3_in, 100.0, 25.0, 45, 0.012, 0.15, 0.2, 0.12);//align to fifth tower
 	wait_for_drive_complete_2();
-	async_drive_to_point(chassis, 124.2_in, 100.0, 10.0, 92.6_in, 100.0, 25.0, 45, 0.012, 0.12, 0.1, 0.12); //fifth tower
+
+	async_drive_to_point(chassis, 120.45_in, 100.0, 10.0, 91.85_in, 100.0, 25.0, 45, 0.012, 0.09, 0.07, 0.12); //fifth tower
 	intake_ball();
 	wait_for_drive_complete_2();
 	top_and_bottom_spin();
@@ -243,7 +218,9 @@ void modified_autonomous()
 	top_and_bottom_off();
 	intake_off();
 
-	async_drive_to_point(chassis, 65.5_in, 100.0, 20.0, 57.5_in, 100.0, 25.0, 192, 0.012, 0.06, 0.1, 0.12);//ninth ball//0.03
+	allowable_errors_back();
+
+	async_drive_to_point(chassis, 62.5_in, 100.0, 20.0, 56_in, 100.0, 25.0, 199, 0.012, 0.06, 0.1, 0.12);//ninth ball//0.03
 	intake_on(-125);//200
 	top_and_bottom_eject();
 	pros::delay(800);
@@ -253,7 +230,7 @@ void modified_autonomous()
 	wait_for_drive_complete_2();
 	intake_off();
 
-	async_drive_to_point(chassis, 66.5_in, 100.0, 15.0, 92_in, 100.0, 10.0, 90, 0.04, 0.03, 0.03, 0.12);//tenth ball and sixth tower
+	async_drive_to_point(chassis, 62.8_in, 100.0, 15.0, 90_in, 100.0, 10.0, 90, 0.04, 0.03, 0.03, 0.12);//tenth ball and sixth tower
 	intake_on(200);
 	intake_ball();
 	wait_for_drive_complete_2();
@@ -268,23 +245,23 @@ void modified_autonomous()
 
 	intake_on(-150);
 	top_and_bottom_eject();
-	async_drive_to_point(chassis, 64_in, 100.0, 20.0, 82_in, 100.0, 25.0, 61, 0.03, 0.04, 0.06, 0.12);//descore sixth tower
+	async_drive_to_point(chassis, 63_in, 100.0, 20.0, 80_in, 100.0, 25.0, 61, 0.03, 0.04, 0.06, 0.12);//descore sixth tower
 	wait_for_drive_complete_2();
 	top_and_bottom_off();
 	intake_off();
 
-	async_drive_to_point(chassis, 33_in, 100.0, 20.0, 95_in, 100.0, 25.0, 123, 0.04, 0.05, 0.1, 0.2);//eleventh ball
+	async_drive_to_point(chassis, 33_in, 100.0, 20.0, 93.5_in, 100.0, 25.0, 123, 0.04, 0.05, 0.1, 0.2);//eleventh ball
 	intake_on(200);
 	wait_for_drive_complete_2();
 	intake_off();
 
-	async_drive_to_point(chassis, 15_in, 100.0, 20.0, 91.2_in, 100.0, 25.0, 123, 0.012, 0.05, 0.175, 0.12);//align to seventh tower
+	async_drive_to_point(chassis, 10_in, 100.0, 20.0, 88.2_in, 100.0, 25.0, 123, 0.012, 0.05, 0.175, 0.12);//align to seventh tower
 	intake_on(200);
 	intake_ball();
 	wait_for_drive_complete_2();
 	intake_off();
 
-	async_drive_to_point(chassis, 9_in, 100.0, 20.0, 96.6_in, 101.0, 25.0, 135, 0.012, 0.04, 0.1, 0.12);//seventh tower
+	async_drive_to_point(chassis, 4_in, 100.0, 20.0, 93.6_in, 101.0, 25.0, 135, 0.012, 0.04, 0.1, 0.12);//seventh tower
 	wait_for_drive_complete_2();
 	top_and_bottom_spin();
 	intake_on(200);
@@ -292,20 +269,20 @@ void modified_autonomous()
 	top_and_bottom_off();
 	intake_off();
 
-	async_drive_to_point(chassis, 18_in, 100.0, 15.0, 95_in, 100.0, 35.0, 270, 0.012, 0.04, 0.06, 0.12);//descore seventh tower
+	async_drive_to_point(chassis, 16_in, 100.0, 15.0, 95_in, 100.0, 35.0, 270, 0.012, 0.04, 0.06, 0.12);//descore seventh tower
 	intake_on(-125);
 	top_and_bottom_eject();
 	wait_for_drive_complete_2();
 	top_and_bottom_off();
 	intake_off();
 
-	async_drive_to_point(chassis, 19_in, 100.0, 20.0, 38.5_in, 100.0, 25.0, 270, 0.012, 0.04, 0.1, 0.12);//align to eighth tower
+	async_drive_to_point(chassis, 20_in, 100.0, 20.0, 35.5_in, 100.0, 25.0, 270, 0.012, 0.04, 0.1, 0.12);//align to eighth tower
 	intake_on(200);
 	intake_ball();
 	wait_for_drive_complete_2();
 	intake_off();
 
-	async_drive_to_point(chassis, 9_in, 100.0, 20.0, 39_in, 100.0, 25.0, 180, 0.03, 0.04, 0.1, 0.12);//eighth tower
+	async_drive_to_point(chassis, 9_in, 100.0, 20.0, 35_in, 100.0, 25.0, 180, 0.03, 0.04, 0.1, 0.12);//eighth tower
 	intake_ball();
 	wait_for_drive_complete_2();
 	top_and_bottom_spin();
@@ -316,319 +293,63 @@ void modified_autonomous()
 
 	reset_pos_y_second();
 
-	async_drive_to_point(chassis, 30_in, 100.0, 20.0, 51_in, 100.0, 20.0, 312, 0.04, 0.05, 0.05, 0.12);
-	intake_on(-200);
-	top_and_bottom_eject();
-	wait_for_drive_complete_2();
-	top_and_bottom_off();
-	intake_off();
-
-	maximum_vel_adj_up();
-	allowable_errors_up();
-
-	async_drive_to_point(chassis, 59.5_in, 100.0, 15.0, 17.5_in, 100.0, 25.0, 312, 0.012, 0.05, 0.04, 0.12);
-	intake_on(200);
-	intake_ball();
-	wait_for_drive_complete_2();
-	intake_off();
-
-	async_drive_to_point(chassis, 58.5_in, 100.0, 15.0, 28.5_in, 100.0, 25.0, 450, 0.03, 0.04, 0.05, 0.12);
-	intake_on(200);
-	wait_for_drive_complete_2();
-	intake_off();
-
-	async_drive_to_point(chassis, 59_in, 100.0, 15.0, 22.45_in, 100.0, 25.0, 450, 0.012, 0.1, 0.09, 0.12);
-	intake_on(200);
-	wait_for_drive_complete_2();
-	intake_off();
-
-	async_drive_to_point(chassis, 59_in, 100.0, 15.0, 25.85_in, 100.0, 25.0, 450, 0.012, 0.1, 0.09, 0.12);
-	intake_on(200);
-	wait_for_drive_complete_2();
-	intake_off();
-
-	async_drive_to_point(chassis, 59_in, 100.0, 15.0, 22.45_in, 100.0, 25.0, 450, 0.012, 0.1, 0.09, 0.12);
-	intake_on(200);
-	wait_for_drive_complete_2();
-	intake_off();
-
-	async_drive_to_point(chassis, 59_in, 100.0, 15.0, 26.15_in, 100.0, 25.0, 450, 0.012, 0.1, 0.09, 0.12);
-	intake_on(200);
-	wait_for_drive_complete_2();
-	intake_off();
-
-	maximum_vel_adj_back();
-	allowable_errors_back();
-
-	async_drive_to_point(chassis, 53_in, 100.0, 25.0, 32.25_in, 100.0, 25.0, 403, 0.012, 0.07, 0.08, 0.12);
-	top_and_bottom_spin();
-	intake_on(200);
-	wait_for_drive_complete_2();
-	top_and_bottom_off();
-	intake_off();
-
-	async_drive_to_point(chassis, 40_in, 100.0, 25.0, 20_in, 100.0, 25.0, 403, 0.012, 0.06, 0.07, 0.12);
-	wait_for_drive_complete_2();
-
-
-
-
-
-	// async_drive_to_point(chassis, 58_in, 100.0, 20.0, 46.5_in, 100.0, 25.0, -45, 0.02, 0.1, 0.1, 0.12);
-	// wait_for_drive_complete_2();
-	// top_and_bottom_spin();
-	// intake_on(200);
-	// pros::delay(750);
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// // async_drive_to_point(chassis, 60_in, 100.0, 15.0, 48_in, 100.0, 25.0, -35, 0.012, 0.7, 0.5, 0.12);
-	// // wait_for_drive_complete_2();
-	//
-	// async_drive_to_point(chassis, 50_in, 100.0, 20.0, 58_in, 100.0, 25.0, -45, 0.02, 0.1, 0.1, 0.12);
-	// wait_for_drive_complete_2();
-
-
-
-
-
-
-
-
-	// async_drive_to_point(chassis, 18_in, 100.0, 20.0, 0_in, 100.0, 15.0, 0, 0.009, 0.05, 0.07, 0.12);//first ball
-	// intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_on(0);
-	//
-	// async_drive_to_point(chassis, 6_in, 100.0, 20.0, -21.5_in, 100.0, 15.0, -130, 0.012, 0.05, 0.04, 0.12);//first tower
-	// wait_for_drive_complete_2();
-	// top_and_bottom_spin();
-	// intake_on(200);
-	// pros::delay(750);
-	// top_and_bottom_off();
-	// intake_off();
-	// intake_on(-150);
-	// top_and_bottom_eject();
-	// async_drive_to_point(chassis, 14_in, 100.0, 15.0, -6_in, 100.0, 40.0, -170, 0.025, 0.06, 0.1, 0.12);//eject balls 1
-	// wait_for_drive_complete_2();
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 25_in, 100.0, 20.0, -22_in, 100.0, 15.0, -70, 0.012, 0.04, 0.06, 0.12);//second ball
-	// intake_on(200);
-	// // intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 63.5_in, 100.0, 15.0, -7_in, 100.0, 33.0, 13, 0.02, 0.04, 0.06, 0.12); //third ball
-	// intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 63.5_in, 100.0, 15.0, -7_in, 100.0, 33.0, -90, 0.015, 0.04, 0.06, 0.2);//turn to tower
-	// wait_for_drive_complete_2();
-	//
-	// async_drive_to_point(chassis, 63.5_in, 100.0, 15.0, -19.5_in, 100.0, 15.0, -90, 0.02, 0.07, 0.07, 0.12);//second tower
-	// wait_for_drive_complete_2();
-	// top_and_bottom_spin();
-	// intake_on(200);
-	// pros::delay(750);
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// intake_on(-150);
-	// top_and_bottom_eject();
-	// async_drive_to_point(chassis, 63.5_in, 100.0, 20.0, -9_in, 100.0, 25.0, -110, 0.03, 0.04, 0.06, 0.12);//eject balls 2
-	// wait_for_drive_complete_2();
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 100_in, 100.0, 20.0, -23_in, 100.0, 25.0, -57, 0.015, 0.04, 0.1, 0.12);//fourth ball
-	// intake_on(200);
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 121_in, 100.0, 30.0, -23_in, 100.0, 50.0, -48, 0.012, 0.06, 0.2, 0.12);//third tower
-	// // intake_on(200);
-	// // pros::delay(200);
-	// // intake_off();
-	// intake_on(200);
-	// intake_ball();
-	// intake_off();
-	// wait_for_drive_complete_2();
-	//
-	// top_and_bottom_spin();
-	// intake_on(200);
-	// pros::delay(450);
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 112_in, 100.0, 15.0, -18_in, 100.0, 35.0, 90, 0.012, 0.04, 0.06, 0.12);
-	// intake_on(-125);
-	// top_and_bottom_eject();
-	// wait_for_drive_complete_2();
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 112.5_in, 100.0, 15.0, 0_in, 100.0, 20.0, 90, 0.012, 0.04, 0.06, 0.12);
-	// intake_on(200);
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 87.5_in, 100.0, 20.0, 34.5_in, 100.0, 20.0, 127, 0.012, 0.04, 0.06, 0.12);
-	// intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 119.75_in, 100.0, 30.0, 35.5_in, 100.0, 20.0, 0, 0.012, 0.04, 0.06, 0.12);//fourth tower
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// top_and_bottom_spin();
-	// intake_on(200);
-	// pros::delay(700);
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 112_in, 100.0, 15.0, 42_in, 100.0, 25.0, -40, 0.012, 0.04, 0.08, 0.12);
+	// async_drive_to_point(chassis, 30_in, 100.0, 20.0, 51_in, 100.0, 20.0, 312, 0.04, 0.05, 0.05, 0.12);
 	// intake_on(-200);
 	// top_and_bottom_eject();
 	// wait_for_drive_complete_2();
 	// top_and_bottom_off();
 	// intake_off();
 	//
-	// async_drive_to_point(chassis, 115_in, 100.0, 15.0, 54_in, 100.0, 25.0, 90, 0.012, 0.04, 0.06, 0.12);
-	// intake_on(200);
-	// //intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_off();
+	// maximum_vel_adj_up();
+	// allowable_errors_up();
 	//
-	// async_drive_to_point(chassis, 101_in, 100.0, 15.0, 95.5_in, 100.0, 25.0, 90, 0.008, 0.04, 0.06, 0.12);
+	// async_drive_to_point(chassis, 59.5_in, 100.0, 15.0, 17.5_in, 100.0, 25.0, 312, 0.012, 0.05, 0.04, 0.12);
 	// intake_on(200);
 	// intake_ball();
 	// wait_for_drive_complete_2();
 	// intake_off();
 	//
-	// async_drive_to_point(chassis, 119_in, 100.0, 20.0, 87_in, 100.0, 25.0, 45, 0.012, 0.12, 0.1, 0.12);
+	// async_drive_to_point(chassis, 58.5_in, 100.0, 15.0, 28.5_in, 100.0, 25.0, 450, 0.03, 0.04, 0.05, 0.12);
+	// intake_on(200);
 	// wait_for_drive_complete_2();
-	// async_drive_to_point(chassis, 123.75_in, 100.0, 20.0, 92.25_in, 100.0, 25.0, 45, 0.012, 0.12, 0.1, 0.12); //changed inconsistently
-	// intake_ball();
+	// intake_off();
+	//
+	// async_drive_to_point(chassis, 59_in, 100.0, 15.0, 22.45_in, 100.0, 25.0, 450, 0.012, 0.1, 0.09, 0.12);
+	// intake_on(200);
 	// wait_for_drive_complete_2();
+	// intake_off();
+	//
+	// async_drive_to_point(chassis, 59_in, 100.0, 15.0, 25.85_in, 100.0, 25.0, 450, 0.012, 0.1, 0.09, 0.12);
+	// intake_on(200);
+	// wait_for_drive_complete_2();
+	// intake_off();
+	//
+	// async_drive_to_point(chassis, 59_in, 100.0, 15.0, 22.45_in, 100.0, 25.0, 450, 0.012, 0.1, 0.09, 0.12);
+	// intake_on(200);
+	// wait_for_drive_complete_2();
+	// intake_off();
+	//
+	// async_drive_to_point(chassis, 59_in, 100.0, 15.0, 26.15_in, 100.0, 25.0, 450, 0.012, 0.1, 0.09, 0.12);
+	// intake_on(200);
+	// wait_for_drive_complete_2();
+	// intake_off();
+	//
+	// maximum_vel_adj_back();
+	// allowable_errors_back();
+	//
+	// async_drive_to_point(chassis, 53_in, 100.0, 25.0, 32.25_in, 100.0, 25.0, 403, 0.012, 0.07, 0.08, 0.12);
 	// top_and_bottom_spin();
 	// intake_on(200);
-	// pros::delay(850);
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 64_in, 100.0, 15.0, 58.5_in, 100.0, 35.0, 190, 0.02, 0.04, 0.1, 0.12);
-	// intake_on(-200);
-	// top_and_bottom_eject();
-	// pros::delay(750);
-	// intake_off();
-	// top_and_bottom_off();
-	// intake_on(200);
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 66.25_in, 100.0, 15.0, 93_in, 100.0, 10.0, 90, 0.04, 0.03, 0.03, 0.12);
-	// intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_off();
-	// top_and_bottom_spin();
-	// intake_on(200);
-	// pros::delay(650);
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// intake_on(-150);
-	// top_and_bottom_eject();
-	// async_drive_to_point(chassis, 64_in, 100.0, 20.0, 84_in, 100.0, 25.0, 65, 0.03, 0.04, 0.06, 0.12);//eject balls 2
 	// wait_for_drive_complete_2();
 	// top_and_bottom_off();
 	// intake_off();
 	//
-	// //0.06
-	// async_drive_to_point(chassis, 33_in, 100.0, 20.0, 98_in, 100.0, 25.0, 123, 0.02, 0.04, 0.1, 0.12);//fourth ball
-	// intake_on(200);
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 16_in, 100.0, 20.0, 90_in, 100.0, 25.0, 123, 0.012, 0.04, 0.1, 0.12);
-	// intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 7.5_in, 100.0, 20.0, 98.5_in, 100.0, 25.0, 135, 0.012, 0.04, 0.1, 0.12);
-	// wait_for_drive_complete_2();
-	// top_and_bottom_spin();
-	// intake_on(200);
-	// pros::delay(850);
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 16_in, 100.0, 15.0, 98_in, 100.0, 35.0, -90, 0.012, 0.04, 0.06, 0.12);
-	// intake_on(-125);
-	// top_and_bottom_eject();
-	// wait_for_drive_complete_2();
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 20_in, 100.0, 20.0, 40.5_in, 100.0, 25.0, -90, 0.012, 0.04, 0.1, 0.12);
-	// intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 10_in, 100.0, 20.0, 40.5_in, 100.0, 25.0, -180, 0.03, 0.04, 0.1, 0.12);
-	// //intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// //intake_off();
-	// top_and_bottom_spin();
-	// //intake_on(200);
-	// pros::delay(750);
-	// top_and_bottom_off();
-	// //sintake_off();
-	//
-	// async_drive_to_point(chassis, 54_in, 100.0, 20.0, 45.5_in, 100.0, 25.0, 2, 0.05, 0.1, 0.1, 0.12);
-	// intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_off();
-	//
-	// async_drive_to_point(chassis, 58_in, 100.0, 20.0, 46.5_in, 100.0, 25.0, -45, 0.02, 0.1, 0.1, 0.12);
-	// wait_for_drive_complete_2();
-	// top_and_bottom_spin();
-	// intake_on(200);
-	// pros::delay(750);
-	// top_and_bottom_off();
-	// intake_off();
-	//
-	// // async_drive_to_point(chassis, 60_in, 100.0, 15.0, 48_in, 100.0, 25.0, -35, 0.012, 0.7, 0.5, 0.12);
-	// // wait_for_drive_complete_2();
-	//
-	// async_drive_to_point(chassis, 50_in, 100.0, 20.0, 58_in, 100.0, 25.0, -45, 0.02, 0.1, 0.1, 0.12);
+	// async_drive_to_point(chassis, 40_in, 100.0, 25.0, 20_in, 100.0, 25.0, 403, 0.012, 0.06, 0.07, 0.12);
 	// wait_for_drive_complete_2();
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// async_drive_to_point(chassis, 52_in, 100.0, 15.0, 0_in, 100.0, 15.0, 0, 0.009, 0.03, 0.05);
-	// intake_on(200);
-	// intake_ball();
-	// wait_for_drive_complete_2();
-	// intake_on(0);
-	// async_drive_to_point(chassis, 35_in, 100.0, 15.0, 0_in, 100.0, 50.0, -68, 0.012, 0.03, 0.09);
-	// wait_for_drive_complete_2();
-	// async_drive_to_point(chassis, 35_in, 100.0, 15.0, -20_in, 100.0, 25.0, -68, 0.012, 0.03, 0.05);
-	// wait_for_drive_complete_2();
-	// top_and_bottom_spin();
-	// pros::delay(750);
-	// top_and_bottom_off();
 
-	//async_drive_to_point(chassis, 25_in, 100.0, 15.0, 0_in, 100.0, 15.0, -130, 0.014, 0.03, 0.05);
+
+
 
 
 	// async_drive_to_point(chassis, 18_in, 100.0, 20.0, 0_in, 100.0, 15.0, 0, 0.009, 0.05, 0.07, 0.12);//first ball

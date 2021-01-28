@@ -9,3 +9,5 @@ double maximum_vel_adj_up();
 double maximum_vel_adj_back();
 double allowable_errors_up();
 double allowable_errors_back();
+double allowable_errors_up_1();
+double allowable_errors_back_1();

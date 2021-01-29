@@ -186,6 +186,20 @@ QAngle get_heading()
   return heading;
 }
 
+//number, number, number_deg
+//ex. reset_pos_generic(0.0, 0.0, 0.0_deg);
+double reset_pos_generic(double new_x_pos, double new_y_pos, QAngle new_heading)
+// double reset_pos_generic()
+{
+  x_position = new_x_pos;
+  y_position = new_y_pos;
+  heading = new_heading;
+
+  // x_position = 0.0;
+  // y_position = 0.0;
+  // heading = 0.0_deg;
+}
+
 double reset_pos_x_first()
 {
   x_position = -20;

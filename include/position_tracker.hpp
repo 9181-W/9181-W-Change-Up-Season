@@ -15,3 +15,4 @@ double reset_pos_y_first();
 double reset_pos_x_second();
 double reset_pos_y_second();
 double reset_pos_x_third();
+void reset_pos_generic(double new_x_pos, double new_y_pos, QAngle new_heading);

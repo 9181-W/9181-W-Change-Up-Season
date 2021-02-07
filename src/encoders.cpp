@@ -2,37 +2,34 @@
 #include "encoders.hpp"
 using namespace okapi;
 
+//creates the shaft encoders as empty objects
 ADIEncoder* shaft_enc_l = NULL;
 ADIEncoder* shaft_enc_r = NULL;
 ADIEncoder* shaft_enc_m = NULL;
 
+//creates a task to display the encoder values
 void encoder_display_task(void* param)
 {
   while(true)
   {
-    // pros::lcd::print(2,"Sensors Initialized");
-    //pros::lcd::print(3,"l %5.1f r %5.1f m %5.1f",shaft_enc_l->get(), shaft_enc_r->get(), shaft_enc_m->get());
     pros::delay(33);
 
+    //prints the data from the shaft encoders to the lcd screen
     printf("raw_left: %5.1f\n", shaft_enc_l->get());
     printf("raw_right: %5.1f\n", shaft_enc_r->get());
     printf("raw_middle: %5.1f\n", shaft_enc_m->get());
   }
 }
 
+//function to initialize the shaft encoders
 void encoder_initialize()
 {
-  //home
-  // shaft_enc_l = new ADIEncoder(OPTICAL_SHAFT_ENCODER_LEFT_TOP, OPTICAL_SHAFT_ENCODER_LEFT_BOTTOM, true);
-  // shaft_enc_r = new ADIEncoder(OPTICAL_SHAFT_ENCODER_RIGHT_TOP, OPTICAL_SHAFT_ENCODER_RIGHT_BOTTOM, false);
-  // shaft_enc_m = new ADIEncoder(OPTICAL_SHAFT_ENCODER_MIDDLE_TOP, OPTICAL_SHAFT_ENCODER_MIDDLE_BOTTOM, false);
-
-  //school
+  //creates the shaft encoders as objects
   shaft_enc_l = new ADIEncoder(OPTICAL_SHAFT_ENCODER_LEFT_TOP, OPTICAL_SHAFT_ENCODER_LEFT_BOTTOM, false);
   shaft_enc_r = new ADIEncoder(OPTICAL_SHAFT_ENCODER_RIGHT_TOP, OPTICAL_SHAFT_ENCODER_RIGHT_BOTTOM, true);
-  //shaft_enc_m = new ADIEncoder(OPTICAL_SHAFT_ENCODER_MIDDLE_TOP, OPTICAL_SHAFT_ENCODER_MIDDLE_BOTTOM, true);
   shaft_enc_m = new ADIEncoder(OPTICAL_SHAFT_ENCODER_MIDDLE_TOP, OPTICAL_SHAFT_ENCODER_MIDDLE_BOTTOM, false);
 
+  //creates a task to display encoder values and make them continually drawable
   pros::Task encoder_display (encoder_display_task, (void*)"PROSV5", TASK_PRIORITY_DEFAULT,
     TASK_STACK_DEPTH_DEFAULT, "Encoder Display Task");
 

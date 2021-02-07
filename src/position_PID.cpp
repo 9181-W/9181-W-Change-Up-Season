@@ -19,9 +19,6 @@ const double degrees_per_inch = degrees_per_circ / wheel_circ;
 
 std::valarray<std::int32_t> get_sensor_vals(std::shared_ptr<ChassisController> chassis)
 {
-  // std::valarray<std::int32_t> sensor_vals = chassis->getModel()->getSensorVals();
-
-
   std::valarray<std::int32_t> sensor_vals{0, 0};
   sensor_vals[0] = shaft_enc_l->get();
   sensor_vals[1] = shaft_enc_r->get();
@@ -32,8 +29,6 @@ std::valarray<std::int32_t> get_sensor_vals(std::shared_ptr<ChassisController> c
 }
 
 //Drive X distance at Y speed
-//void drive(double distance_in_inches, double max_speed)
-//void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, double max_speed, bool drive_straight, double kp, double ki, double kd)
 void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, double max_speed, bool drive_straight)
 {
 
@@ -42,16 +37,7 @@ void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, do
     //Sets the encoder units to use degrees instead of ticks
     chassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
 
-    /*//Setting the Proportional,Integral,Differential constants (P.I.D.)
-    const double drive_kp = 0.00158;
-    const double drive_ki = 0.0002;
-    const double drive_kd = 0.0005;
-    */
-
-    //const double drive_kp = 0.0018;
-    // const double drive_kp = 0.00165;
-    // const double drive_ki = 0.0000;
-    // const double drive_kd = 0.00005;
+    //Setting the Proportional,Integral,Differential constants (P.I.D.)
     const double drive_kp = 0.00135;
     const double drive_ki = 0.0000;
     const double drive_kd = -0.0001;
@@ -69,9 +55,6 @@ void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, do
     //Sets the proportional constant for driving straight
     //const double drive_straight_kp = 0.05;
     const double drive_straight_kp = 0.05;
-
-    //Sets the proportional constant for driving strafing
-    // const double strafe_kp = 0.005;
 
     //Converts Qlength distance to distance_in_inches
     double distance_in_inches = distance.convert(inch);
@@ -97,8 +80,6 @@ void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, do
     inertial_reset();
     double initial_drive_gyro_value = inertial_get_value();
 
-    // double initial_strafe_value = shaft_enc_m->get();
-
     //Sets the first speed to zero
     double last_speed = 0.0;
 
@@ -111,11 +92,6 @@ void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, do
         // ******************************************************************************************************************************* //
         //  This code uses proportional , differential, and integral constants to calculate the best speed to reach the desired distance   //
         // ******************************************************************************************************************************* //
-
-        //pros::lcd::print(2,"Value 1 %d",current_pos_values[0]);
-        //pros::lcd::print(3,"Value 2 %d",current_pos_values[1]);
-
-
 
         //Calculate distance left to drive
         drive_error = distance_in_degrees - static_cast<double>((current_pos_values[0] + current_pos_values[1])) / 2.0;;
@@ -215,24 +191,6 @@ void gyro_drive(std::shared_ptr<ChassisController> chassis, QLength distance, do
           turn_speed = drive_straight_error * drive_straight_kp;
         }
 
-        // ****************************************************************************************************************************** //
-        // This code will make the robot drive straight by turning small distances if the robot has driven slightly to the right or left  //
-        // - This does not support driving backwards right now.                                                                           //
-        // ****************************************************************************************************************************** //
-        // double strafe_speed = 0.0;
-        // if(drive_straight == true)
-        // {
-        //   //Gets the gyro's current value
-        //   double strafe_value = shaft_enc_m->get();
-        //
-        //   //Calculates the amount that the robot is off of its heading
-        //   double strafe_error = initial_strafe_value - strafe_value;
-        //
-        //   //Creates a turn speed so that different sides can be slowed down
-        //   strafe_speed = strafe_error * strafe_kp;
-        // }
-
-
         // ******************************************* //
         // Set final speed and calculate the new error //
         // ******************************************* //
@@ -258,9 +216,6 @@ std::shared_ptr<ChassisController> async_chassis;
 QLength async_distance;
 double async_max_speed;
 bool async_complete = true;
-// double async_kp = 0.0;
-// double async_ki = 0.0;
-// double async_kd = 0.0;
 pros::Task* drive_task = NULL;
 
 void drive_async(void* param)

@@ -7,7 +7,7 @@ using namespace okapi;
 
 //Link to 5225A github github.com/nickmertin/5225A-2017-2018/blob/master/src/auto.c
 //
-// The following algorithm come from: http://thepilons.ca/wp-content/uploads/2018/10/Tracking.pdf
+// The following algorithm came from: http://thepilons.ca/wp-content/uploads/2018/10/Tracking.pdf
 //
 // The following variables are used in this document to represent physical parameters and other known
 // values:
@@ -53,7 +53,7 @@ using namespace okapi;
 // 10. Calculate global offset Δ𝑑⃗  as Δ𝑑⃗⃗ rotated by −𝜃𝑚; this can be done by converting your existing
 // Cartesian coordinates to polar coordinates, changing the angle, then converting back
 //
-// 11. Calculate new absolute position 𝑑1⃗⃗⃗ = 𝑑0 ⃗⃗ + Δ𝑑⃗
+// 11. Calculate new absolute position 𝑑1⃗⃗⃗ = 𝑑0 + Δ𝑑⃗
 
 //Globals
 double x_position = 0.0;
@@ -188,12 +188,12 @@ QAngle get_heading()
 
 //number, number, number_deg
 //ex. reset_pos_generic(0.0, 0.0, 0.0_deg);
-double reset_pos_generic(double new_x_pos, double new_y_pos, QAngle new_heading)
+double reset_pos_generic(double new_x_pos, double new_y_pos)
 // double reset_pos_generic()
 {
   x_position = new_x_pos;
   y_position = new_y_pos;
-  heading = new_heading;
+  inertial_reset();
 
   // x_position = 0.0;
   // y_position = 0.0;

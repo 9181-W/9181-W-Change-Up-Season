@@ -12,6 +12,7 @@
  */
 void initialize()
 {
+	//runs the initialize code from another file
 	modified_initialize();
 }
 
@@ -22,7 +23,6 @@ void initialize()
  */
 void disabled()
 {
-	//printf("disabled");
 }
 
 /**
@@ -36,7 +36,7 @@ void disabled()
  */
 void competition_initialize()
 {
-	//printf("comp init");
+
 }
 
 /**
@@ -52,7 +52,7 @@ void competition_initialize()
  */
 void autonomous()
 {
-	//printf("auto");
+	//runs the autonomous code from another file
 	modified_autonomous();
 }
 
@@ -71,6 +71,6 @@ void autonomous()
  */
 void opcontrol()
 {
-	//printf("opcontrol");
+	//runs the operator control code from another file
 	modified_opcontrol();
 }

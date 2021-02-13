@@ -11,3 +11,5 @@ double allowable_errors_up();
 double allowable_errors_back();
 double allowable_errors_up_1();
 double allowable_errors_back_1();
+double allowable_errors_up_adj(double d_s_e, double x_e, double y_e);
+double allowable_errors_back_3();

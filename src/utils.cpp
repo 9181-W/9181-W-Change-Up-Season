@@ -13,7 +13,7 @@ std::shared_ptr<ChassisController> chassis =
       -LEFT_FRONT_WHEEL_PORT, RIGHT_FRONT_WHEEL_PORT,
       RIGHT_REAR_WHEEL_PORT, -LEFT_REAR_WHEEL_PORT
     )
-    .withDimensions(AbstractMotor::gearset::green, {{4.0_in, 13_in}, imev5GreenTPR})
+    .withDimensions(AbstractMotor::gearset::green, {{4.0_in, 13_in}, imev5GreenTPR})//4, 13
     .build();
 
 void time_strafe(double speed)

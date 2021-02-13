@@ -155,6 +155,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
         //Calculate speed to be driven at using kp,ki,kd
         double y_speed = y_drive_error * y_drive_kp + y_derivative * y_drive_kd;
         double x_speed = x_drive_error * x_drive_kp + x_derivative * x_drive_kd;
+
         //prints the x speed and y speed to the terminal
         printf("req x_vel: %5.2f  req y_vel: %5.2f\n",x_speed,y_speed);
 
@@ -343,4 +344,20 @@ double allowable_errors_up_1()
 double allowable_errors_back_1()
 {
   drive_straight_epsilon = 1.0;
+}
+
+//makes the epsilons
+double allowable_errors_up_adj(double d_s_e, double x_e, double y_e)
+{
+  drive_straight_epsilon = d_s_e;
+  x_distance_epsilon = x_e;
+  y_distance_epsilon = y_e;
+}
+
+//sets the epsilons back to what it originally was
+double allowable_errors_back_3()
+{
+  drive_straight_epsilon = 1.0;
+  x_distance_epsilon = 1.0;
+  y_distance_epsilon = 0.5;
 }

@@ -143,7 +143,7 @@ void position_tracker_task(void* param)
       delta_d_y = 2 * okapi::sin(delta_theta / 2).getValue() * (delta_R / (delta_theta.convert(radian)) + sR);
     }
 
-    pros::lcd::print(4,"dt %5.1f ddx %5.1f ddy %5.1f",delta_theta.convert(degree), delta_d_x, delta_d_y);
+    //pros::lcd::print(4,"dt %5.1f ddx %5.1f ddy %5.1f",delta_theta.convert(degree), delta_d_x, delta_d_y);
 
     //9. Calculate the average orientation 𝜃𝑚 = 𝜃0 + Δ𝜃 / 2
     QAngle theta_m = theta_0 + delta_theta / 2;
@@ -191,9 +191,9 @@ QAngle get_heading()
 double reset_pos_generic(double new_x_pos, double new_y_pos)
 // double reset_pos_generic()
 {
-  x_position = new_x_pos;
-  y_position = new_y_pos;
-  inertial_reset();
+  // x_position = new_x_pos;
+  // y_position = new_y_pos;
+  // inertial_reset();
 
   // x_position = 0.0;
   // y_position = 0.0;
@@ -202,32 +202,32 @@ double reset_pos_generic(double new_x_pos, double new_y_pos)
 
 double reset_pos_x_first()
 {
-  x_position = -20;
+  // x_position = -20;
 }
 
 double reset_pos_y_first()
 {
-  y_position = 122;
+  // y_position = 122;
 }
 
 double reset_pos_x_second()
 {
-  x_position = 97;
+  // x_position = 97
 }
 
 double reset_pos_y_second()
 {
-  y_position = 9;
+  // y_position = 9;
 }
 
 double reset_pos_x_third()
 {
-  x_position = 95;
+  // x_position = 95;
 }
 //starts the task that will read the location of the robot
 void tracker_initialize()
 {
   //uses the built-in pros task creator to start a task
-  pros::Task position_tracker (position_tracker_task, (void*)"PROSV5", TASK_PRIORITY_DEFAULT,
+  pros::Task position_tracker (position_tracker_task, (void*)"PROSV5", TASK_PRIORITY_MAX,
     TASK_STACK_DEPTH_DEFAULT, "Position Tracker Task");
 }

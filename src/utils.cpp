@@ -90,7 +90,7 @@ void intake_ball()
   {
     bottom_mtr.moveVelocity(-225);
     top_mtr.moveVelocity(225);
-    pros::delay(1);
+    pros::delay(33);
   }
   bottom_mtr.moveVelocity(0);
   top_mtr.moveVelocity(0);

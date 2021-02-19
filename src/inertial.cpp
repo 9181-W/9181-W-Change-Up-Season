@@ -42,7 +42,7 @@ void inertial_reading(void* param)
     pros::lcd::print(1,"Inertial Value 1 %5.2f",(inertial_value_1));
     pros::lcd::print(2,"Inertial Value 2 %5.2f",(inertial_value_2));
     //waits so the loop doesnt run too fast
-    pros::delay(33);
+    pros::delay(10);
   }
 }
 
@@ -69,7 +69,7 @@ void inertial_initialize()
   while((inertial_1->is_calibrating() == true) && (inertial_2->is_calibrating() == true));
 
   //task for reading the inertials
-  pros::Task inertial_value_task (inertial_reading, (void*)"PROSV5", TASK_PRIORITY_DEFAULT,
+  pros::Task inertial_value_task (inertial_reading, (void*)"PROSV5", TASK_PRIORITY_MAX,
     TASK_STACK_DEPTH_DEFAULT, "Inertial Value Task");
 }
 

@@ -38,6 +38,9 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     y_min_speed = y_min_speed / 100;
     x_min_speed = x_min_speed / 100;
 
+    // if (x_min_speed < 0.3) x_min_speed = 0.3;
+    // if (y_min_speed < 0.3) y_min_speed = 0.3;
+
     //Sets the encoder units to use degrees instead of ticks
     chassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
 
@@ -45,8 +48,6 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
     const double y_drive_kd = -0.001;
     const double x_drive_kd = -0.001;
 
-    //Creates a maximum speed for velocity adjustment so that the robot will accelerate smoothly and have no jerk at the beggining
-    const double x_maximum_vel_adj = 0.2;
     //
     const double zero_speed = 0.0075;
 
@@ -99,8 +100,9 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
     //Drive while the robot isn't too slow (checks if the robot is moving fast enough to warrant continuation of driving) or hasnt driven half of its target distance or hasnt finished turning
     while ( ((fabs(y_last_three_derivatives) > y_epsilon) || (fabs(total_drive_error) > fabs(initial_drive_error) / 2.0)) ||
-            ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(total_drive_error) > fabs(initial_drive_error) / 2.0)) ||
-            ((fabs(drive_straight_error) > drive_straight_epsilon * 3)) )
+           ((fabs(x_last_three_derivatives) > x_epsilon) || (fabs(total_drive_error) > fabs(initial_drive_error) / 2.0)) ||
+           ((fabs(drive_straight_error) > drive_straight_epsilon * 3)) )
+    // while(true)
     {
         // ******************************************************************************************************************************* //
         //  This code uses proportional , differential, and integral constants to calculate the best speed to reach the desired distance   //
@@ -121,10 +123,9 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
         //exit if we have reached the target
         if((fabs(y_drive_error) < y_distance_epsilon) && (fabs(x_drive_error) < x_distance_epsilon) && (fabs(drive_straight_error) < drive_straight_epsilon))
         {
-          printf("Exit x and y drive error too small!\n");
           break;
         }
-
+        pros::lcd::print(4,"xE %5.1f yE %5.1f tE %5.1f", x_drive_error, y_drive_error, drive_straight_error);
 
         //Calculates the derivatives(change in error)
         double y_derivative = y_last_error - y_drive_error;
@@ -236,14 +237,14 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
         double x_velocity_adj = x_speed - x_last_speed;
 
-        if(x_velocity_adj > x_maximum_vel_adj)
+        if(x_velocity_adj > maximum_vel_adj)
         {
-            x_speed = x_last_speed + x_maximum_vel_adj;
+            x_speed = x_last_speed + maximum_vel_adj;
         }
 
-        if(x_velocity_adj < -x_maximum_vel_adj)
+        if(x_velocity_adj < -maximum_vel_adj)
         {
-            x_speed = x_last_speed + -x_maximum_vel_adj;
+            x_speed = x_last_speed + -maximum_vel_adj;
         }
 
         //assigns the last speeds our current speeds
@@ -286,6 +287,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
 
           //prints the gyro value and turn speed to the terminal
           printf("Gyro: %5.1f  Turn Speed: %5.1f\n",drive_gyro_value,turn_speed);
+          pros::lcd::print(5,"xS %5.1f yS %5.1f tS %5.1f", x_speed, y_speed, turn_speed);
         }
 
         // ******************************************* //
@@ -296,7 +298,7 @@ void drive_to_point(std::shared_ptr<ChassisController> chassis, QLength y_distan
         std::shared_ptr<ChassisModel> chassis_model = chassis->getModel();
         std::shared_ptr<XDriveModel> chassis_x_model = std::dynamic_pointer_cast<XDriveModel>(chassis_model);
         chassis_x_model->xArcade(x_speed, y_speed, turn_speed);
-        pros::delay(10);
+        pros::delay(33);
 
         //Calculates current position based on start position after small movement
         y_current_pos_value = get_y_position() - y_start_pos_value;

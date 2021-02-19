@@ -12,7 +12,7 @@ void encoder_display_task(void* param)
 {
   while(true)
   {
-    pros::delay(33);
+    pros::delay(10);
 
     //prints the data from the shaft encoders to the lcd screen
     printf("raw_left: %5.1f\n", shaft_enc_l->get());

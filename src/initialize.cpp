@@ -12,8 +12,8 @@ Controller master_controller(ControllerId::master);
 //creates the motors
 Motor right_rear_mtr(RIGHT_REAR_WHEEL_PORT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 Motor left_rear_mtr(LEFT_REAR_WHEEL_PORT, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
-Motor right_front_mtr(RIGHT_FRONT_WHEEL_PORT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
-Motor left_front_mtr(LEFT_FRONT_WHEEL_PORT, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
+Motor right_front_mtr(RIGHT_FRONT_WHEEL_PORT, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
+Motor left_front_mtr(LEFT_FRONT_WHEEL_PORT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 Motor left_intake_mtr(LEFT_INTAKE_PORT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 Motor right_intake_mtr(RIGHT_INTAKE_PORT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 Motor bottom_mtr(BOTTOM_PORT, true, AbstractMotor::gearset::blue, AbstractMotor::encoderUnits::degrees);

@@ -217,7 +217,7 @@ double reset_pos_x_second()
 
 double reset_pos_y_second()
 {
-  // y_position = 9;
+  y_position = 9;
 }
 
 double reset_pos_x_third()

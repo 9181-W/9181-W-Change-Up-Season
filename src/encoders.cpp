@@ -27,7 +27,7 @@ void encoder_initialize()
   //creates the shaft encoders as objects
   shaft_enc_l = new ADIEncoder(OPTICAL_SHAFT_ENCODER_LEFT_TOP, OPTICAL_SHAFT_ENCODER_LEFT_BOTTOM, false);
   shaft_enc_r = new ADIEncoder(OPTICAL_SHAFT_ENCODER_RIGHT_TOP, OPTICAL_SHAFT_ENCODER_RIGHT_BOTTOM, true);
-  shaft_enc_m = new ADIEncoder(OPTICAL_SHAFT_ENCODER_MIDDLE_TOP, OPTICAL_SHAFT_ENCODER_MIDDLE_BOTTOM, false);
+  shaft_enc_m = new ADIEncoder(OPTICAL_SHAFT_ENCODER_MIDDLE_TOP, OPTICAL_SHAFT_ENCODER_MIDDLE_BOTTOM, true);
 
   //creates a task to display encoder values and make them continually drawable
   pros::Task encoder_display (encoder_display_task, (void*)"PROSV5", TASK_PRIORITY_DEFAULT,

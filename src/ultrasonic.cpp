@@ -16,8 +16,8 @@ void line_sensor_reading(void* param)
   {
     line_sensor_value_1 = line_sensor_1->get_value();
     line_sensor_value_2 = line_sensor_2->get_value();
-    // pros::lcd::print(6,"Line Sensor 1 Value %f",line_sensor_value_1);
-    //pros::lcd::print(7,"Line Sensor 2 Value %f",line_sensor_value_2);
+    pros::lcd::print(4,"Line Sensor 1 Value %f",line_sensor_value_1);
+    pros::lcd::print(5,"Line Sensor 2 Value %f",line_sensor_value_2);
     pros::delay(33);
   }
 }

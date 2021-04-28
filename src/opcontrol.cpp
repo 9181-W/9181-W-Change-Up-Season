@@ -38,10 +38,15 @@ void arcade_drive(double gearset_rpm = 200)
   double leftX = master_controller.getAnalog(okapi::ControllerAnalog::leftX);
 
   //calculate individual wheel speeds between -1,1
-  double front_left_speed = (leftY * 0.83) + (rightX * 0.87) + leftX;
-  double front_right_speed = (leftY * 0.83) - (rightX * 0.87) - leftX;
-  double back_left_speed = (leftY * 0.83) + (rightX * 0.87) - leftX;
-  double back_right_speed = (leftY * 0.83) - (rightX * 0.87) + leftX;
+  // double front_left_speed = (leftY * 0.83) + (rightX * 0.87) + leftX;
+  // double front_right_speed = (leftY * 0.83) - (rightX * 0.87) - leftX;
+  // double back_left_speed = (leftY * 0.83) + (rightX * 0.87) - leftX;
+  // double back_right_speed = (leftY * 0.83) - (rightX * 0.87) + leftX;
+
+  double front_left_speed = (leftY) + (rightX) + leftX;
+  double front_right_speed = (leftY) - (rightX) - leftX;
+  double back_left_speed = (leftY) + (rightX) - leftX;
+  double back_right_speed = (leftY) - (rightX) + leftX;
 
   //calculate wheel speeds in rpm
   front_left_speed *= gearset_rpm;
@@ -60,6 +65,14 @@ void arcade_drive(double gearset_rpm = 200)
   right_front_mtr.moveVelocity(front_right_speed);
   left_rear_mtr.moveVelocity(back_left_speed);
   right_rear_mtr.moveVelocity(back_right_speed);
+
+  if ((master_controller.getDigital(okapi::ControllerDigital::A)) == true)
+  {
+    right_rear_mtr.setBrakeMode(AbstractMotor::brakeMode::brake);
+    left_rear_mtr.setBrakeMode(AbstractMotor::brakeMode::brake);
+    right_front_mtr.setBrakeMode(AbstractMotor::brakeMode::brake);
+    left_front_mtr.setBrakeMode(AbstractMotor::brakeMode::brake);
+  }
 }
 
 //controls for the front two intakes
@@ -67,26 +80,32 @@ void intake_controls()
 {
   if ((master_controller.getDigital(okapi::ControllerDigital::R1)) == true)
   {
-    left_intake_mtr.moveVelocity(200);
-    right_intake_mtr.moveVelocity(-200);
+    left_intake_mtr.moveVelocity(600);
+    right_intake_mtr.moveVelocity(-600);
+  }
+
+  else if ((master_controller.getDigital(okapi::ControllerDigital::B)) == true)
+  {
+    left_intake_mtr.moveVelocity(600);
+    right_intake_mtr.moveVelocity(-600);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::L1)) == true)
   {
-    left_intake_mtr.moveVelocity(-200);
-    right_intake_mtr.moveVelocity(200);
+    left_intake_mtr.moveVelocity(-600);
+    right_intake_mtr.moveVelocity(600);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::L1)) && (master_controller.getDigital(okapi::ControllerDigital::R2)) == true)
   {
-    left_intake_mtr.moveVelocity(-200);
-    right_intake_mtr.moveVelocity(200);
+    left_intake_mtr.moveVelocity(-600);
+    right_intake_mtr.moveVelocity(600);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::L2)) == true)
   {
-    left_intake_mtr.moveVelocity(-200);
-    right_intake_mtr.moveVelocity(200);
+    left_intake_mtr.moveVelocity(-600);
+    right_intake_mtr.moveVelocity(600);
   }
 
   else
@@ -101,28 +120,45 @@ void bottom_controls()
 {
   if ((master_controller.getDigital(okapi::ControllerDigital::R2)) == true)
   {
-    bottom_mtr.moveVelocity(-300);
+    bottom_mtr.moveVelocity(-600);
+  }
+
+  else if ((master_controller.getDigital(okapi::ControllerDigital::B)) == true)
+  {
+    top_mtr.moveVelocity(-25);
   }
 
   //if the line sensor detects a ball the bottom motor is shut off
-  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_2_value() < 2500))
+  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_2_value() < 2875) && (get_line_sensor_1_value() < 2875))
   {
-    bottom_mtr.moveVelocity(0);
+    bottom_mtr.moveVelocity(-0);
+  }
+
+  //makes the top motor move slightly backwards if the ball goes slightly past the first line sensor
+  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_1_value() < 2875))
+  {
+    top_mtr.moveVelocity(300);
+  }
+
+  //if the line sensor detects a ball the bottom motor is shut off
+  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_2_value() < 2875))
+  {
+    bottom_mtr.moveVelocity(-0);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::R1)) == true)
   {
-    bottom_mtr.moveVelocity(-300);
+    bottom_mtr.moveVelocity(-250);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::X)) == true)
   {
-    bottom_mtr.moveVelocity(300);
+    bottom_mtr.moveVelocity(-300);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::L1)) == true)
   {
-    bottom_mtr.moveVelocity(300);
+    bottom_mtr.moveVelocity(600);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::R1)) && (master_controller.getDigital(okapi::ControllerDigital::R2)) == true)
@@ -144,21 +180,32 @@ void top_controls()
     top_mtr.moveVelocity(600);
   }
 
-  else if ((master_controller.getDigital(okapi::ControllerDigital::X)) == true)
+  else if ((master_controller.getDigital(okapi::ControllerDigital::B)) == true)
   {
-    top_mtr.moveVelocity(300);
+    top_mtr.moveVelocity(25);
   }
 
   //shuts of the top motor if the line sensors detect a ball
-  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_2_value() < 2500))
+  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_2_value() < 2875) && (get_line_sensor_1_value() < 2875))
   {
     top_mtr.moveVelocity(0);
   }
 
   //makes the top motor move slightly backwards if the ball goes slightly past the first line sensor
-  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_1_value() < 2500))
+  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_1_value() < 2875))
   {
-    top_mtr.moveVelocity(-300);
+    top_mtr.moveVelocity(-250);
+  }
+
+  //shuts of the top motor if the line sensors detect a ball
+  else if (((master_controller.getDigital(okapi::ControllerDigital::R1)) == true) && (get_line_sensor_2_value() < 2875))
+  {
+    top_mtr.moveVelocity(0);
+  }
+
+  else if ((master_controller.getDigital(okapi::ControllerDigital::R1)) == true)
+  {
+    top_mtr.moveVelocity(300);
   }
 
   else if ((master_controller.getDigital(okapi::ControllerDigital::L1)) == true)

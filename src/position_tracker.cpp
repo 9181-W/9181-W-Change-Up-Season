@@ -191,9 +191,9 @@ QAngle get_heading()
 double reset_pos_generic(double new_x_pos, double new_y_pos)
 // double reset_pos_generic()
 {
-  // x_position = new_x_pos;
-  // y_position = new_y_pos;
-  // inertial_reset();
+  x_position = new_x_pos;
+  y_position = new_y_pos;
+  inertial_reset();
 
   // x_position = 0.0;
   // y_position = 0.0;
